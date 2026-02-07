@@ -101,7 +101,7 @@ export const getFestivalTheme = (festivalName: string): FestivalTheme => {
   if (name.includes('shivaratri') || name.includes('shivratri') || name.includes('shiva')) {
     return {
       sareeColor: 'elegant white/cream silk saree with rich royal blue/violet border and silver zari work — Banarasi or Kanchipuram style, symbolizing purity and devotion to Lord Shiva',
-      jewellery: 'Traditional temple jewellery with rudraksha-inspired gold necklace, elegant jhumka earrings with blue stone accents, gold bangles. Subtle bindi on forehead. Premium but devotional aesthetic',
+      jewellery: 'LUXURIOUS EXPENSIVE CELEBRITY-LEVEL JEWELLERY — Heavy multi-layered gold necklace with diamond/kundan studded pendant, large ornate gold jhumka earrings with diamonds, heavy gold bangles stack on both wrists, optional gold maang tikka. Must look like expensive red-carpet level jewellery worth lakhs — NOT festival-themed items. Pure gold and diamonds only',
       environmentDecorations: `The ENTIRE background must be transformed into an immersive **Maha Shivaratri celebration setup**:
   - Large beautiful **Lord Shiva idol or framed portrait** prominently visible behind/above the subject, adorned with fresh flowers
   - **Shiva Lingam** with bilva leaves, flowers, and milk offering visible on a decorated altar/table
@@ -130,7 +130,7 @@ export const getFestivalTheme = (festivalName: string): FestivalTheme => {
   if (name.includes('sankranthi') || name.includes('sankranti') || name.includes('pongal') || name.includes('lohri')) {
     return {
       sareeColor: 'rich festive crimson/maroon silk saree with bright golden zari border — heavy Kanchipuram silk with traditional motifs symbolizing harvest prosperity',
-      jewellery: 'Heavy traditional gold jewellery — layered gold necklace (kasulaperu or manga haram style), classic gold jhumka earrings, multiple gold bangles on both wrists. Full festive jewellery look',
+      jewellery: 'LUXURIOUS EXPENSIVE CELEBRITY-LEVEL JEWELLERY — Heavy multi-layered gold necklace (kasulaperu or manga haram style) with diamond studding, large ornate gold jhumka earrings, heavy gold bangles stack on both wrists. Must look like expensive red-carpet level jewellery worth lakhs — pure gold and diamonds only',
       environmentDecorations: `The ENTIRE background must be transformed into an immersive **Sankranthi / Pongal celebration setup**:
   - **Thick marigold garlands** (orange and yellow) draped lavishly on walls, doorways, and around the frame — multiple layers, generous quantity
   - **Mango leaf thoranam (festive door hanging)** prominently visible at the top
@@ -160,7 +160,7 @@ export const getFestivalTheme = (festivalName: string): FestivalTheme => {
   if (name.includes('diwali') || name.includes('deepavali') || name.includes('deepawali')) {
     return {
       sareeColor: 'luxurious deep maroon/wine silk saree with rich gold zari work — heavy Banarasi or Kanchipuram silk with intricate brocade patterns, symbolizing prosperity and celebration',
-      jewellery: 'Full festive gold jewellery — ornate gold necklace with kundan work, traditional jhumka earrings, gold bangles stack, optional maang tikka. Grand Diwali celebration level jewellery',
+      jewellery: 'LUXURIOUS EXPENSIVE CELEBRITY-LEVEL JEWELLERY — Grand ornate gold necklace with heavy kundan and diamond work, large traditional gold jhumka earrings with precious stones, heavy gold bangles stack, maang tikka. Must look like expensive red-carpet level jewellery worth lakhs — pure gold and diamonds only',
       environmentDecorations: `The ENTIRE background must be transformed into an immersive **Diwali / Deepavali celebration setup**:
   - **Hundreds of lit diyas (earthen oil lamps)** arranged in beautiful patterns — on shelves, ledges, floor, and surfaces throughout the scene
   - **Marigold and rose garlands** in orange, yellow, and red draped lavishly
@@ -190,7 +190,7 @@ export const getFestivalTheme = (festivalName: string): FestivalTheme => {
   if (name.includes('republic') || name.includes('26 jan') || name.includes('26th jan') || name.includes('gantantra')) {
     return {
       sareeColor: 'elegant golden/cream silk saree with tricolor-inspired border (saffron and green accents with gold) — premium patriotic silk with dignity and grace',
-      jewellery: 'Refined gold jewellery — elegant gold chain necklace, tasteful gold studs or small jhumkas, thin gold bangles. Classy and dignified, not over-the-top',
+      jewellery: 'LUXURIOUS EXPENSIVE CELEBRITY-LEVEL JEWELLERY — Heavy elegant gold necklace with diamond pendant, large ornate gold jhumka earrings with precious stones, heavy gold bangles stack. Must look like expensive red-carpet level jewellery worth lakhs — pure gold and diamonds only',
       environmentDecorations: `The ENTIRE background must be transformed into an immersive **Republic Day / Independence Day patriotic celebration setup**:
   - **Indian tricolor balloons** (saffron, white, green) arranged in balloon arches and clusters throughout the background — generous, celebratory quantity
   - **Indian National Flag** — a small desk flag or wall-mounted flag prominently visible
@@ -217,7 +217,7 @@ export const getFestivalTheme = (festivalName: string): FestivalTheme => {
   if (name.includes('independence') || name.includes('15 aug') || name.includes('15th aug') || name.includes('swatantra')) {
     return {
       sareeColor: 'elegant golden/cream silk saree with tricolor-inspired border (saffron and green accents with gold) — premium patriotic silk with dignity and grace',
-      jewellery: 'Refined gold jewellery — elegant gold chain necklace, tasteful gold studs or small jhumkas, thin gold bangles. Classy and dignified, not over-the-top',
+      jewellery: 'LUXURIOUS EXPENSIVE CELEBRITY-LEVEL JEWELLERY — Heavy elegant gold necklace with diamond pendant, large ornate gold jhumka earrings with precious stones, heavy gold bangles stack. Must look like expensive red-carpet level jewellery worth lakhs — pure gold and diamonds only',
       environmentDecorations: `The ENTIRE background must be transformed into an immersive **Independence Day patriotic celebration setup**:
   - **Indian tricolor balloons** (saffron, white, green) arranged in generous balloon arches and clusters throughout — celebratory and vibrant
   - **Indian National Flag** — desk flag and/or wall-mounted flag prominently visible
@@ -243,7 +243,7 @@ export const getFestivalTheme = (festivalName: string): FestivalTheme => {
   if (name.includes('ugadi') || name.includes('ugaadi') || name.includes('gudi padwa') || name.includes('telugu new year')) {
     return {
       sareeColor: 'rich golden yellow or mango-colored silk saree with green and maroon border — premium Kanchipuram silk symbolizing new beginnings and spring',
-      jewellery: 'Traditional gold jewellery — elegant gold necklace with traditional pendant, gold jhumka earrings, gold bangles stack. Spring celebration level jewellery',
+      jewellery: 'LUXURIOUS EXPENSIVE CELEBRITY-LEVEL JEWELLERY — Heavy ornate gold necklace with diamond/kundan studded pendant, large gold jhumka earrings with precious stones, heavy gold bangles stack. Must look like expensive red-carpet level jewellery worth lakhs — pure gold and diamonds only',
       environmentDecorations: `The ENTIRE background must be transformed into an immersive **Ugadi celebration setup**:
   - **Mango leaf thoranam (festive door hanging)** prominently displayed — fresh green mango leaves strung on string
   - **Mango leaf and flower garlands** decorating walls and doorways
@@ -272,7 +272,7 @@ export const getFestivalTheme = (festivalName: string): FestivalTheme => {
   if (name.includes('ganesh') || name.includes('vinayaka') || name.includes('chavithi') || name.includes('chaturthi')) {
     return {
       sareeColor: 'rich deep red/maroon silk saree with heavy gold zari work — premium Kanchipuram silk symbolizing auspiciousness and divine celebration',
-      jewellery: 'Full traditional gold jewellery — elaborate gold necklace, traditional jhumka earrings, gold bangles, optional gold waist chain. Grand festive devotional look',
+      jewellery: 'LUXURIOUS EXPENSIVE CELEBRITY-LEVEL JEWELLERY — Heavy elaborate gold necklace with diamond/kundan work, large traditional gold jhumka earrings with precious stones, heavy gold bangles stack, optional gold waist chain. Must look like expensive red-carpet level jewellery worth lakhs — pure gold and diamonds only',
       environmentDecorations: `The ENTIRE background must be transformed into an immersive **Ganesh Chaturthi celebration setup**:
   - **Beautiful Lord Ganesha idol** (eco-friendly clay idol) as the central background element, decorated with flowers and garlands
   - **Modak sweets** displayed on a plate near the idol
@@ -301,7 +301,7 @@ export const getFestivalTheme = (festivalName: string): FestivalTheme => {
   if (name.includes('dasara') || name.includes('dussehra') || name.includes('navaratri') || name.includes('navratri') || name.includes('durga')) {
     return {
       sareeColor: 'vibrant royal red or rich orange silk saree with contrasting bright gold/green border — heavy Banarasi silk symbolizing victory, power, and divine feminine energy',
-      jewellery: 'Grand traditional gold jewellery — ornate gold necklace, large traditional jhumka earrings, gold bangles on both wrists, optional gold kamarbandh. Navaratri celebration level grandeur',
+      jewellery: 'LUXURIOUS EXPENSIVE CELEBRITY-LEVEL JEWELLERY — Grand ornate gold necklace with heavy diamond/kundan work, large traditional gold jhumka earrings with precious stones, heavy gold bangles on both wrists, optional gold kamarbandh. Must look like expensive red-carpet level jewellery worth lakhs — pure gold and diamonds only',
       environmentDecorations: `The ENTIRE background must be transformed into an immersive **Dasara / Navaratri celebration setup**:
   - **Golu / Bomma Koluvu (step display)** — traditional step arrangement with dolls and figurines visible
   - **Goddess Durga / Saraswati / Lakshmi** framed image or idol decorated with flowers
@@ -330,7 +330,7 @@ export const getFestivalTheme = (festivalName: string): FestivalTheme => {
   if (name.includes('holi') || name.includes('rang')) {
     return {
       sareeColor: 'pristine white or cream silk saree with colorful border accents (pink, yellow, green touches) — Holi-appropriate, ready for the festival of colors',
-      jewellery: 'Minimal elegant gold jewellery — simple gold chain, small jhumkas, thin bangles. Light and playful, suitable for Holi celebration imagery',
+      jewellery: 'LUXURIOUS EXPENSIVE CELEBRITY-LEVEL JEWELLERY — Heavy ornate gold necklace with diamond/kundan studded pendant, large gold jhumka earrings with precious stones, heavy gold bangles stack. Must look like expensive red-carpet level jewellery worth lakhs — NOT minimal, pure gold and diamonds only',
       environmentDecorations: `The ENTIRE background must be transformed into an immersive **Holi celebration setup**:
   - **Colorful gulal (colored powder) splashes** on walls, creating vibrant abstract art — pinks, yellows, greens, blues, purples
   - **Bowls and plates of colorful gulal powders** arranged decoratively
@@ -358,7 +358,7 @@ export const getFestivalTheme = (festivalName: string): FestivalTheme => {
   if (name.includes('raksha') || name.includes('rakhi')) {
     return {
       sareeColor: 'elegant pastel pink or soft peach silk saree with golden border — feminine, graceful, symbolizing the bond of protection and love',
-      jewellery: 'Delicate ornate gold jewellery — refined gold necklace, elegant jhumka earrings, gold bangles with rakhi-like thread accents. Graceful and celebratory',
+      jewellery: 'LUXURIOUS EXPENSIVE CELEBRITY-LEVEL JEWELLERY — Heavy ornate gold necklace with diamond/kundan work, large elegant gold jhumka earrings with precious stones, heavy gold bangles stack. Must look like expensive red-carpet level jewellery worth lakhs — pure gold and diamonds only',
       environmentDecorations: `The ENTIRE background must be transformed into an immersive **Raksha Bandhan celebration setup**:
   - **Decorated rakhi thali** with kumkum, rice, sweets, and decorative rakhis prominently visible
   - **Beautiful handmade rakhis** displayed decoratively
@@ -385,7 +385,7 @@ export const getFestivalTheme = (festivalName: string): FestivalTheme => {
   if (name.includes('christmas') || name.includes('xmas') || name.includes('x-mas')) {
     return {
       sareeColor: 'rich deep red or emerald green silk saree with golden border and subtle Christmas-inspired accents — premium festive silk',
-      jewellery: 'Elegant gold jewellery with subtle green/red stone accents — refined gold necklace, crystal or stone-set earrings, gold bangles. Festive but tasteful',
+      jewellery: 'LUXURIOUS EXPENSIVE CELEBRITY-LEVEL JEWELLERY — Heavy elegant gold necklace with diamond pendant, large ornate gold jhumka earrings with precious stones, heavy gold bangles stack. Must look like expensive red-carpet level jewellery worth lakhs — pure gold and diamonds only',
       environmentDecorations: `The ENTIRE background must be transformed into an immersive **Christmas celebration setup**:
   - **Decorated Christmas tree** with ornaments, lights, star topper, and gifts underneath
   - **Fairy lights / string lights** draped generously — warm white or multi-color
@@ -414,7 +414,7 @@ export const getFestivalTheme = (festivalName: string): FestivalTheme => {
   if (name.includes('new year') || name.includes('newyear') || name.includes('happy new') || name.includes('naya saal')) {
     return {
       sareeColor: 'luxurious rich purple or royal blue silk saree with heavy golden zari work — premium celebratory silk symbolizing new beginnings and grandeur',
-      jewellery: 'Statement gold jewellery — elegant gold necklace with modern design, sparkly earrings, gold bangles. New Year party-ready premium look',
+      jewellery: 'LUXURIOUS EXPENSIVE CELEBRITY-LEVEL JEWELLERY — Statement heavy gold necklace with diamond/precious stone pendant, large ornate gold earrings with diamonds, heavy gold bangles stack. Must look like expensive red-carpet level jewellery worth lakhs — pure gold and diamonds only',
       environmentDecorations: `The ENTIRE background must be transformed into an immersive **New Year celebration setup**:
   - **Gold and silver balloons** — large number balloons showing the YEAR, balloon arches
   - **Metallic streamers and confetti** in gold, silver, and midnight blue
@@ -442,7 +442,7 @@ export const getFestivalTheme = (festivalName: string): FestivalTheme => {
   if (name.includes('onam')) {
     return {
       sareeColor: 'traditional Kerala kasavu saree — pristine white/cream with rich golden border (traditional Kerala mundu-set inspired) — elegant and culturally authentic',
-      jewellery: 'Traditional Kerala gold jewellery — elegant gold necklace (Kerala style), gold jhumka earrings, gold bangles. Authentic Onam celebration look',
+      jewellery: 'LUXURIOUS EXPENSIVE CELEBRITY-LEVEL JEWELLERY — Heavy elegant Kerala-style gold necklace with diamond accents, large gold jhumka earrings with precious stones, heavy gold bangles stack. Must look like expensive red-carpet level jewellery worth lakhs — pure gold and diamonds only',
       environmentDecorations: `The ENTIRE background must be transformed into an immersive **Onam celebration setup**:
   - **Large Pookalam (flower rangoli)** as the dominant floor decoration — intricate circular design with colorful flower petals in concentric rings
   - **Banana leaves** displayed decoratively and as sadya setup elements
@@ -469,7 +469,7 @@ export const getFestivalTheme = (festivalName: string): FestivalTheme => {
   if (name.includes('eid') || name.includes('ramadan') || name.includes('ramzan')) {
     return {
       sareeColor: 'elegant emerald green or royal blue silk saree with heavy gold and silver zari work — luxurious, dignified, symbolizing prosperity and celebration',
-      jewellery: 'Elegant gold jewellery with subtle green stone accents — refined gold necklace, ornate jhumka earrings, gold bangles. Dignified Eid celebration look',
+      jewellery: 'LUXURIOUS EXPENSIVE CELEBRITY-LEVEL JEWELLERY — Heavy elegant gold necklace with diamond/precious stone accents, large ornate gold jhumka earrings with diamonds, heavy gold bangles stack. Must look like expensive red-carpet level jewellery worth lakhs — pure gold and diamonds only',
       environmentDecorations: `The ENTIRE background must be transformed into an immersive **Eid celebration setup**:
   - **Crescent moon and star decorations** — golden metallic crescents and stars hanging and on walls
   - **Ornate lanterns (fanoos)** — traditional Eid lanterns with warm candlelight glow, multiple styles
@@ -497,7 +497,7 @@ export const getFestivalTheme = (festivalName: string): FestivalTheme => {
   if (name.includes('bathukamma') || name.includes('batukamma')) {
     return {
       sareeColor: 'vibrant bright pink or rich magenta silk saree with contrasting green/golden border — traditional Telangana festive silk celebrating feminine power and Nature',
-      jewellery: 'Traditional Telangana gold jewellery — elaborate gold necklace, large jhumka earrings, gold bangles stack, possibly a gold choker. Festive and culturally authentic',
+      jewellery: 'LUXURIOUS EXPENSIVE CELEBRITY-LEVEL JEWELLERY — Heavy elaborate gold necklace with diamond/kundan work, large gold jhumka earrings with precious stones, heavy gold bangles stack, possibly a gold choker. Must look like expensive red-carpet level jewellery worth lakhs — pure gold and diamonds only',
       environmentDecorations: `The ENTIRE background must be transformed into an immersive **Bathukamma celebration setup**:
   - **Colorful Bathukamma floral stacks** — the signature conical flower arrangements made of seasonal flowers placed on a brass plate
   - **Tangdi flowers, gunuka flowers, banthi flowers (marigolds), chamanti (chrysanthemums)** used in the arrangements
@@ -524,7 +524,7 @@ export const getFestivalTheme = (festivalName: string): FestivalTheme => {
   if (name.includes('vishu') || name.includes('vaisakhi') || name.includes('baisakhi') || name.includes('vasakhi')) {
     return {
       sareeColor: 'bright golden yellow silk saree with rich traditional border — premium celebratory silk symbolizing prosperity, harvest, and new beginnings',
-      jewellery: 'Full traditional gold jewellery — elegant gold necklace, traditional jhumka earrings, gold bangles. Harvest celebration premium look',
+      jewellery: 'LUXURIOUS EXPENSIVE CELEBRITY-LEVEL JEWELLERY — Heavy elegant gold necklace with diamond/kundan work, large traditional gold jhumka earrings with precious stones, heavy gold bangles stack. Must look like expensive red-carpet level jewellery worth lakhs — pure gold and diamonds only',
       environmentDecorations: `The ENTIRE background must be transformed into an immersive **Vishu/Vaisakhi celebration setup**:
   - **Vishu Kani arrangement** — traditional first-sight arrangement with golden cucumber, flowers, rice, coins, mirror, holy text, fruits arranged in a brass uruli
   - **Konna flowers (Cassia fistula / Golden shower)** prominently displayed — bright yellow flowers
@@ -548,7 +548,7 @@ export const getFestivalTheme = (festivalName: string): FestivalTheme => {
   // Generic / Default festival
   return {
     sareeColor: `rich festive silk saree in colors that traditionally represent ${festivalName} celebrations — premium festival-appropriate silk with gold zari work`,
-    jewellery: `Traditional gold jewellery appropriate for ${festivalName} celebration — elegant gold necklace, jhumka earrings, gold bangles. Festival-appropriate premium look`,
+    jewellery: `LUXURIOUS EXPENSIVE CELEBRITY-LEVEL JEWELLERY — Heavy ornate gold necklace with diamond/kundan studded pendant, large gold jhumka earrings with precious stones, heavy gold bangles stack. Must look like expensive red-carpet level jewellery worth lakhs — pure gold and diamonds only`,
     environmentDecorations: `The ENTIRE background must be transformed into an immersive **${festivalName} celebration setup**:
   - **Festival-specific decorations** prominently displayed throughout the scene
   - **Fresh flower garlands** — marigolds, jasmine, roses in colors appropriate to ${festivalName}
@@ -622,19 +622,21 @@ Your output prompt MUST follow this EXACT structure with these EXACT section hea
 Create a Ultra-realistic DSLR photograph, single image, 9:16 vertical — must look like a real, high-budget national [BUSINESS TYPE] ${isFestival ? `**${festivalName} celebration** ` : ''}photoshoot, absolutely no AI-art, no rendering, no stock-photo feel. Indistinguishable from a real professional photograph.${isFestival ? `
 **THIS IS A ${festivalName.toUpperCase()} THEMED IMAGE — the entire frame must BREATHE the festival. Every element — attire, decorations, environment, lighting, colors — must work together to create an IMMERSIVE ${festivalName} celebration feel.**` : ''}
 
-SUBJECT (CELEBRITY STANDARD — NON-NEGOTIABLE):
-One **exceptionally beautiful young Indian woman (early-20s)** with **true celebrity-level presence**, like a top national brand ambassador or A-list actress hired to represent a premium [BUSINESS TYPE] brand${isFestival ? ` during their ${festivalName} celebrations` : ''}.
-Her beauty must feel **striking, premium, magnetic, and instantly attention-grabbing**, yet still real and photographic — the kind of woman brands pay heavily to front their campaigns.
+SUBJECT (CELEBRITY STANDARD — NON-NEGOTIABLE — MUST LOOK LIKE A-LIST CELEBRITY):
+One **exceptionally beautiful young Indian woman (early-20s)** with **true celebrity-level presence**, like a top national brand ambassador or A-list South Indian film actress hired to represent a premium [BUSINESS TYPE] brand${isFestival ? ` during their ${festivalName} celebrations` : ''}.
+Her beauty must feel **STUNNING, premium, magnetic, and instantly attention-grabbing** — think Rashmika Mandanna, Pooja Hegde, or Samantha Ruth Prabhu level beauty. The kind of woman brands pay crores to front their campaigns.
 
-Facial characteristics (MANDATORY):
-• Perfect natural facial symmetry
-• Sharp, expressive deep eyes with confident, powerful gaze and strong screen presence
-• Well-sculpted, perfectly shaped eyebrows
-• Soft but powerful warm smile showing confidence, trust, and authority
-• **Soft blushing cheeks** — natural rosy glow on cheekbones (NOT heavy makeup, but visible healthy blush)
-• Small elegant sharp nose
-• Clean, refined defined jawline
-• **High-end real skin texture** — visible pores, micro highlights, natural unevenness, luminous complexion
+Facial characteristics (MANDATORY — CELEBRITY BEAUTY LEVEL):
+• Perfect natural facial symmetry — stunning model-like proportions
+• Sharp, expressive deep eyes with confident, powerful gaze and strong screen presence — eyes that captivate
+• Well-sculpted, perfectly shaped eyebrows — professionally groomed
+• Soft but powerful warm smile showing confidence, trust, and authority — million-dollar smile
+• **PROMINENT BLUSHING CHEEKS — VERY IMPORTANT** — beautiful rosy pink glow on cheekbones, like natural flush of a healthy glowing celebrity. This blush must be CLEARLY VISIBLE and give her face a warm, radiant, alive appearance. NOT heavy makeup, but DEFINITELY noticeable healthy glowing blush
+• Small elegant sharp nose — perfectly proportioned
+• Clean, refined defined jawline — sharp and attractive
+• **Flawless luminous skin** — visible pores for realism, micro highlights, natural unevenness, BUT overall glowing and radiant complexion like she just had a facial
+• Subtle natural makeup — defined eyes, soft lips, healthy glow
+• She must look like she could be on a magazine cover or billboard
 • No plastic skin, no airbrushing, no over-smoothing, no AI glow, no beautification filters
 
 POSE & FRAMING (LOCKED — NON-NEGOTIABLE — HIGHEST PRIORITY):
@@ -666,10 +668,11 @@ The saree MUST be **DYNAMIC and UNIQUE based on the business sector** — NOT th
 • Styling must feel film-industry celebrity level, not catalog or wedding shoot
 • The attire must complement BOTH the business type AND the ${festivalName} decorations
 
-JEWELLERY (${festivalName.toUpperCase()} FESTIVAL-APPROPRIATE — MANDATORY):
+JEWELLERY (LUXURIOUS CELEBRITY-LEVEL — MANDATORY):
 **${festivalTheme.jewellery}**
-Jewellery must match the ${festivalName} festival theme and complement the saree perfectly.
-The overall jewellery look should feel celebratory, premium, and culturally appropriate for ${festivalName}.` : `ATTIRE (BUSINESS-THEMED COLOR — MANDATORY — MUST BE DYNAMIC PER BUSINESS):
+Jewellery must be ALWAYS EXPENSIVE, LUXURIOUS gold and diamond celebrity-level jewellery — NOT festival-themed items.
+NEVER use festival-specific items like rudraksha, minimal jewellery, or religious accessories.
+The jewellery should look like expensive red-carpet level worth lakhs — pure gold with diamonds/kundan only.` : `ATTIRE (BUSINESS-THEMED COLOR — MANDATORY — MUST BE DYNAMIC PER BUSINESS):
 ${attireType === 'traditional' ? `Premium traditional Indian silk saree — the saree color MUST be UNIQUE and DYNAMIC based on the specific business type and brand colors. Do NOT use the same saree for different businesses.
 
 Color guide by business type:
