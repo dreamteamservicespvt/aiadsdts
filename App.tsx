@@ -17,7 +17,8 @@ import {
   Video,
   PenTool,
   ChevronDown,
-  Copy
+  Copy,
+  StopCircle
 } from 'lucide-react';
 import { FileUpload } from './components/FileUpload';
 import { GeneratedCard } from './components/GeneratedCard';
@@ -26,7 +27,7 @@ import { SavedItems } from './components/SavedItems';
 import { ThemeToggle } from './components/ThemeToggle';
 import { useAuth } from './contexts/AuthContext';
 import { useTheme } from './contexts/ThemeContext';
-import { AdFormData, AdType, AttireType, DurationPackage, FileStore, GeneratedOutputs, GenerationStatus } from './types';
+import { AdFormData, AdType, AttireType, FileStore, GeneratedOutputs, GenerationStatus } from './types';
 import { generateAdAssets, extractBusinessOnly, generateStockImagePrompts, refineSection, SectionType } from './services/geminiService';
 import { saveGeneration, getSavedGenerations, SavedGeneration } from './services/firebase';
 import { clsx } from 'clsx';
@@ -39,7 +40,8 @@ const App: React.FC = () => {
     adType: AdType.COMMERCIAL,
     festivalName: '',
     attireType: AttireType.TRADITIONAL,
-    duration: DurationPackage.SHORT,
+    duration: 16,
+    durationMode: 'preset',
     textInstructions: ''
   });
 
@@ -76,6 +78,9 @@ const App: React.FC = () => {
     setCollapsedSections(prev => ({ ...prev, [section]: !prev[section] }));
   };
 
+  // Header product toggle
+  const [includeProductsInHeader, setIncludeProductsInHeader] = useState(false);
+
   // Save-related states
   const [showSavedItems, setShowSavedItems] = useState(false);
   const [savedItems, setSavedItems] = useState<SavedGeneration[]>([]);
@@ -89,6 +94,33 @@ const App: React.FC = () => {
   const [stockImageError, setStockImageError] = useState<string | null>(null);
   const [stockImageTheme, setStockImageTheme] = useState<string>('indian');
   const [copiedStockIdx, setCopiedStockIdx] = useState<number | null>(null);
+
+  // Abort controller for stopping generation
+  const abortControllerRef = useRef<AbortController | null>(null);
+
+  // Upcoming festivals list (dynamic based on current date)
+  const upcomingFestivals = [
+    'Ugadi',
+    'Holi',
+    'Ram Navami',
+    'Akshaya Tritiya',
+    'Eid ul-Fitr',
+    'Raksha Bandhan',
+    'Krishna Janmashtami',
+    'Ganesh Chaturthi',
+    'Navaratri',
+    'Dasara',
+    'Diwali',
+    'Kartika Purnima',
+    'Christmas',
+    'New Year',
+    'Sankranthi',
+    'Republic Day',
+    'Independence Day',
+    'Maha Shivaratri',
+    'Bathukamma',
+    'Onam'
+  ];
 
   // Ref for scrolling to output panel
   const outputPanelRef = useRef<HTMLDivElement>(null);
@@ -203,7 +235,8 @@ const App: React.FC = () => {
       adType: item.adType as AdType,
       festivalName: item.festivalName || '',
       attireType: item.attireType as AttireType,
-      duration: item.duration as DurationPackage
+      duration: item.duration || 16,
+      durationMode: 'preset'
     }));
     setShowSavedItems(false);
   };
@@ -288,6 +321,9 @@ const App: React.FC = () => {
       return;
     }
 
+    // Create abort controller for this generation
+    abortControllerRef.current = new AbortController();
+
     setStatus({ step: 'Initializing...', isProcessing: true, error: null, progress: 0 });
     setOutputs(null);
     
@@ -300,6 +336,7 @@ const App: React.FC = () => {
       if (creationMode === 'poster') {
         // Poster-only mode: extract business info only, then user creates poster on-demand
         const result = await extractBusinessOnly(formData, files, (step, progress) => {
+          if (abortControllerRef.current?.signal.aborted) throw new Error('Generation stopped by user');
           setStatus(prev => ({ ...prev, step, progress }));
         });
         setOutputs(result);
@@ -307,18 +344,30 @@ const App: React.FC = () => {
       } else {
         // Full video ad pipeline
         const result = await generateAdAssets(formData, files, (step, progress) => {
+          if (abortControllerRef.current?.signal.aborted) throw new Error('Generation stopped by user');
           setStatus(prev => ({ ...prev, step, progress }));
-        });
+        }, { includeProductsInHeader });
         setOutputs(result);
         setStatus(prev => ({ ...prev, isProcessing: false, step: 'Completed', progress: 100 }));
       }
     } catch (error: any) {
       console.error(error);
+      const isStopped = error.message?.includes('stopped by user');
       setStatus(prev => ({ 
         ...prev, 
         isProcessing: false, 
-        error: error.message || "An unexpected error occurred." 
+        error: isStopped ? 'Generation stopped.' : (error.message || "An unexpected error occurred.")
       }));
+    } finally {
+      abortControllerRef.current = null;
+    }
+  };
+
+  // Stop generation handler
+  const handleStopGeneration = () => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+      setStatus(prev => ({ ...prev, step: 'Stopping...', isProcessing: false }));
     }
   };
 
@@ -524,6 +573,20 @@ const App: React.FC = () => {
                         onChange={(f) => setFiles(prev => ({ ...prev, productImages: f as File[] }))}
                         helperText="Will appear in main frame & footer"
                       />
+                      {files.productImages.length > 0 && (
+                        <label className={clsx(
+                          "flex items-center gap-2 mt-2 text-xs cursor-pointer",
+                          resolvedTheme === 'dark' ? "text-slate-400" : "text-slate-600"
+                        )}>
+                          <input
+                            type="checkbox"
+                            checked={includeProductsInHeader}
+                            onChange={(e) => setIncludeProductsInHeader(e.target.checked)}
+                            className="rounded border-slate-300"
+                          />
+                          Include products in header design
+                        </label>
+                      )}
                     </div>
                   )}
                 </div>
@@ -714,18 +777,36 @@ const App: React.FC = () => {
                       "block text-sm font-semibold mb-2",
                       resolvedTheme === 'dark' ? "text-slate-300" : "text-slate-700"
                     )}>Festival Name</label>
-                    <input 
-                      type="text"
+                    <select
                       className={clsx(
                         "w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 outline-none transition-all",
                         resolvedTheme === 'dark'
-                          ? "bg-slate-700 border-slate-600 text-slate-200 placeholder-slate-500 focus:ring-purple-800 focus:border-purple-500"
+                          ? "bg-slate-700 border-slate-600 text-slate-200 focus:ring-purple-800 focus:border-purple-500"
                           : "bg-white border-slate-300 text-slate-700 focus:ring-purple-200 focus:border-purple-500"
                       )}
-                      placeholder="e.g. Diwali, Sankranti"
                       value={formData.festivalName}
                       onChange={(e) => setFormData(prev => ({ ...prev, festivalName: e.target.value }))}
-                    />
+                    >
+                      <option value="">-- Select Festival --</option>
+                      {upcomingFestivals.map((festival) => (
+                        <option key={festival} value={festival}>{festival}</option>
+                      ))}
+                    </select>
+                    <p className={clsx("text-xs mt-1", resolvedTheme === 'dark' ? "text-slate-500" : "text-slate-400")}>
+                      Or type custom: 
+                      <input 
+                        type="text"
+                        className={clsx(
+                          "ml-2 w-32 border rounded px-2 py-0.5 text-xs",
+                          resolvedTheme === 'dark'
+                            ? "bg-slate-600 border-slate-500 text-slate-200"
+                            : "bg-slate-50 border-slate-200 text-slate-700"
+                        )}
+                        placeholder="Custom festival"
+                        value={!upcomingFestivals.includes(formData.festivalName) ? formData.festivalName : ''}
+                        onChange={(e) => setFormData(prev => ({ ...prev, festivalName: e.target.value }))}
+                      />
+                    </p>
                   </div>
                 )}
 
@@ -759,41 +840,122 @@ const App: React.FC = () => {
                     "block text-sm font-semibold mb-2",
                     resolvedTheme === 'dark' ? "text-slate-300" : "text-slate-700"
                   )}>Video Duration</label>
-                  <select 
-                    className={clsx(
-                      "w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 outline-none",
-                      resolvedTheme === 'dark'
-                        ? "bg-slate-700 border-slate-600 text-slate-200 focus:ring-blue-800"
-                        : "bg-white border-slate-300 text-slate-700 focus:ring-blue-200"
-                    )}
-                    value={formData.duration}
-                    onChange={(e) => setFormData(prev => ({ ...prev, duration: parseInt(e.target.value) as DurationPackage }))}
-                  >
-                    <option value={16}>16 Seconds (2 Segments)</option>
-                    <option value={32}>32 Seconds (4 Segments)</option>
-                    <option value={64}>64 Seconds (8 Segments)</option>
-                  </select>
+                  
+                  {/* Duration Mode Toggle */}
+                  <div className="grid grid-cols-2 gap-2 mb-2">
+                    <button
+                      onClick={() => setFormData(prev => ({ ...prev, durationMode: 'preset', duration: 16 }))}
+                      className={clsx(
+                        "px-3 py-1.5 rounded-lg text-xs font-medium border transition-all",
+                        formData.durationMode === 'preset'
+                          ? resolvedTheme === 'dark'
+                            ? "border-blue-500 bg-blue-900/30 text-blue-400"
+                            : "border-blue-500 bg-blue-50 text-blue-700"
+                          : resolvedTheme === 'dark'
+                            ? "border-slate-600 hover:border-slate-500 text-slate-400"
+                            : "border-slate-200 hover:border-slate-300 text-slate-600"
+                      )}
+                    >
+                      Preset
+                    </button>
+                    <button
+                      onClick={() => setFormData(prev => ({ ...prev, durationMode: 'custom', duration: 24 }))}
+                      className={clsx(
+                        "px-3 py-1.5 rounded-lg text-xs font-medium border transition-all",
+                        formData.durationMode === 'custom'
+                          ? resolvedTheme === 'dark'
+                            ? "border-violet-500 bg-violet-900/30 text-violet-400"
+                            : "border-violet-500 bg-violet-50 text-violet-700"
+                          : resolvedTheme === 'dark'
+                            ? "border-slate-600 hover:border-slate-500 text-slate-400"
+                            : "border-slate-200 hover:border-slate-300 text-slate-600"
+                      )}
+                    >
+                      Custom
+                    </button>
+                  </div>
+
+                  {formData.durationMode === 'preset' ? (
+                    <select 
+                      className={clsx(
+                        "w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 outline-none",
+                        resolvedTheme === 'dark'
+                          ? "bg-slate-700 border-slate-600 text-slate-200 focus:ring-blue-800"
+                          : "bg-white border-slate-300 text-slate-700 focus:ring-blue-200"
+                      )}
+                      value={formData.duration}
+                      onChange={(e) => setFormData(prev => ({ ...prev, duration: parseInt(e.target.value) }))}
+                    >
+                      <option value={16}>16 Seconds (2 Clips)</option>
+                      <option value={32}>32 Seconds (4 Clips)</option>
+                      <option value={64}>64 Seconds (8 Clips)</option>
+                    </select>
+                  ) : (
+                    <div className="flex flex-col space-y-2">
+                      <div className="flex items-center space-x-2">
+                        <input
+                          type="number"
+                          min={8}
+                          max={120}
+                          step={8}
+                          className={clsx(
+                            "w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 outline-none",
+                            resolvedTheme === 'dark'
+                              ? "bg-slate-700 border-slate-600 text-slate-200 focus:ring-violet-800"
+                              : "bg-white border-slate-300 text-slate-700 focus:ring-violet-200"
+                          )}
+                          placeholder="Enter seconds (8, 16, 24, 32...)"
+                          value={formData.duration}
+                          onChange={(e) => {
+                            let val = parseInt(e.target.value) || 8;
+                            // Round to nearest multiple of 8
+                            val = Math.round(val / 8) * 8;
+                            if (val < 8) val = 8;
+                            if (val > 120) val = 120;
+                            setFormData(prev => ({ ...prev, duration: val }));
+                          }}
+                        />
+                        <span className={clsx("text-sm whitespace-nowrap", resolvedTheme === 'dark' ? "text-slate-400" : "text-slate-500")}>
+                          sec
+                        </span>
+                      </div>
+                      <p className={clsx("text-xs", resolvedTheme === 'dark' ? "text-slate-500" : "text-slate-400")}>
+                        {Math.floor(formData.duration / 8)} clip(s) • Must be multiple of 8 sec
+                      </p>
+                    </div>
+                  )}
                 </div>
                 )}
 
                 {/* Submit Button */}
-                <button
-                  onClick={handleGenerate}
-                  disabled={status.isProcessing}
-                  className={clsx(
-                    "w-full py-3.5 px-4 rounded-xl text-white font-bold text-sm shadow-lg shadow-blue-500/20 flex items-center justify-center space-x-2 transition-all transform active:scale-95",
-                    status.isProcessing 
-                      ? "bg-slate-400 cursor-not-allowed"
-                      : "bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700"
+                <div className="flex space-x-2">
+                  <button
+                    onClick={handleGenerate}
+                    disabled={status.isProcessing}
+                    className={clsx(
+                      "flex-1 py-3.5 px-4 rounded-xl text-white font-bold text-sm shadow-lg shadow-blue-500/20 flex items-center justify-center space-x-2 transition-all transform active:scale-95",
+                      status.isProcessing 
+                        ? "bg-slate-400 cursor-not-allowed"
+                        : "bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700"
+                    )}
+                  >
+                    {status.isProcessing ? (
+                       <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    ) : (
+                      <Rocket className="w-5 h-5" />
+                    )}
+                    <span>{status.isProcessing ? 'Processing...' : creationMode === 'poster' ? 'Extract Business Info' : 'Start Generation'}</span>
+                  </button>
+                  {status.isProcessing && (
+                    <button
+                      onClick={handleStopGeneration}
+                      className="py-3.5 px-4 rounded-xl bg-red-500 hover:bg-red-600 text-white font-bold text-sm shadow-lg shadow-red-500/20 flex items-center justify-center space-x-2 transition-all transform active:scale-95"
+                    >
+                      <StopCircle className="w-5 h-5" />
+                      <span>Stop</span>
+                    </button>
                   )}
-                >
-                  {status.isProcessing ? (
-                     <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                  ) : (
-                    <Rocket className="w-5 h-5" />
-                  )}
-                  <span>{status.isProcessing ? 'Processing...' : creationMode === 'poster' ? 'Extract Business Info' : 'Start Generation'}</span>
-                </button>
+                </div>
 
                 {status.error && (
                   <div className="flex items-start space-x-2 bg-red-50 text-red-700 p-3 rounded-lg text-sm">

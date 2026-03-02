@@ -337,11 +337,18 @@ export const extractBusinessOnly = async (
   };
 };
 
+export interface GenerationOptions {
+  includeProductsInHeader?: boolean;
+}
+
 export const generateAdAssets = async (
   formData: AdFormData,
   files: FileStore,
-  onProgress: (status: string, progress: number) => void
+  onProgress: (status: string, progress: number) => void,
+  options: GenerationOptions = {}
 ): Promise<GeneratedOutputs> => {
+  
+  const { includeProductsInHeader = false } = options;
   
   if (API_KEYS.length === 0) {
     throw new Error("No API keys configured. Please set API_KEY_1, API_KEY_2, etc. in your environment.");
@@ -500,13 +507,14 @@ export const generateAdAssets = async (
     ? `\n\nPRODUCT IMAGES ATTACHED: ${productImageCount} product image(s) are attached with this prompt.
 CRITICAL PRODUCT IMAGE INSTRUCTIONS FOR MAIN FRAME:
 - The attached product images MUST be incorporated into the generated image
-- Place the products in the LOWER 20-25% of the frame (below the model's waist area)
-- Products should be displayed elegantly on a surface, shelf, or floating arrangement that fits the business environment
-- Products must look naturally placed — as if they are real items displayed in the business premises
-- Maintain the 70% model dominance rule — products fill the bottom portion without competing with the model
-- Products should be well-lit and clearly visible but secondary to the model's presence
-- Use the EXACT product images provided — do NOT redesign or alter the products
-- Arrange multiple products in a clean, organized layout (e.g., slight overlap, cascading, or row arrangement)`
+- **PLACEMENT: Place products IN THE STORE BACKGROUND — on shelves, display racks, tables, or counters BEHIND the model**
+- DO NOT place products at the bottom of the frame (they get covered by footer in editing)
+- Products should appear as ACTUAL MERCHANDISE displayed in the real store/office background
+- Position products on: wall shelves, display cases, reception counter, product stands, or wall-mounted racks
+- **PRODUCT CONSISTENCY IS CRITICAL**: Use the EXACT product images provided — do NOT redesign, alter, modify, recolor, or stylize the products in ANY way
+- Products must appear EXACTLY as they look in the uploaded images — same colors, packaging, labels, appearance
+- Products must be clearly visible in the background but secondary to the model's presence
+- The scene should look like a REAL photo taken at the ACTUAL business with their products on display`
     : '';
   
   const mainFrameUserPrompt = `Generate a Main Frame image prompt for:
@@ -515,7 +523,7 @@ CRITICAL PRODUCT IMAGE INSTRUCTIONS FOR MAIN FRAME:
   ${formData.adType === 'festival' ? `FESTIVAL: ${formData.festivalName}` : ''}
   ATTIRE: ${formData.attireType}
   SPECIAL CLIENT INSTRUCTIONS: ${businessInfo.specialRequirements?.customInstructions || 'None'}
-  ${hasProductImages ? `\nPRODUCT IMAGES: ${productImageCount} product image(s) are being attached. You MUST include product placement instructions in the prompt. Products should appear in the lower portion of the frame.` : ''}
+  ${hasProductImages ? `\nPRODUCT IMAGES: ${productImageCount} product image(s) are being attached. You MUST include product placement instructions in the prompt. Products should appear IN THE STORE BACKGROUND (on shelves, display racks, tables) — NOT at the bottom of the frame. Products must remain EXACTLY as provided — no modifications.` : ''}
   Generate the complete image generation prompt now.${productImageMainFrameNote}`;
 
   // Build main frame parts including product images
@@ -528,7 +536,7 @@ CRITICAL PRODUCT IMAGE INSTRUCTIONS FOR MAIN FRAME:
           data: await fileToBase64(files.productImages[i])
         }
       });
-      mainFrameParts.push({ text: `Product Image ${i + 1} of ${productImageCount} — this product MUST appear in the generated main frame image.` });
+      mainFrameParts.push({ text: `Product Image ${i + 1} of ${productImageCount} — this EXACT product (unchanged, unmodified) MUST appear in the store background (on shelves, display racks, or counters) in the generated main frame image. DO NOT alter the product appearance in any way.` });
     }
   }
 
@@ -543,11 +551,12 @@ CRITICAL PRODUCT IMAGE INSTRUCTIONS FOR MAIN FRAME:
 
   const headerSystemPrompt = HEADER_SYSTEM_PROMPT(formData.adType, formData.festivalName);
   
-  const productImageHeaderNote = hasProductImages
+  // Only include product note if products should be in header
+  const productImageHeaderNote = (hasProductImages && includeProductsInHeader)
     ? `\n\nPRODUCT IMAGES ATTACHED: ${productImageCount} product image(s) are attached with this prompt.
 CRITICAL PRODUCT IMAGE INSTRUCTIONS FOR HEADER:
 - The attached product images MUST be incorporated into the header design
-- Add a slim PRODUCT BANNER / FOOTER STRIP at the bottom of the header (within the top 10% area)
+- Add a slim PRODUCT BANNER / FOOTER STRIP at the bottom of the header (within the top 8% area)
 - Products should appear as small, clean thumbnail-style images in a horizontal row
 - Products must be clearly visible but compact — fitting within the header's slim design
 - Use the EXACT product images provided — do NOT redesign or alter the products
@@ -559,13 +568,13 @@ CRITICAL PRODUCT IMAGE INSTRUCTIONS FOR HEADER:
   AD TYPE: ${formData.adType}
   ${formData.adType === 'festival' ? `FESTIVAL: ${formData.festivalName}` : ''}
   
-  CRITICAL INSTRUCTION: If a visiting card is attached, extract EVERY piece of information from it (business name, owner name, ALL phone numbers, email, website, full address, tagline, services) and include ALL of them in the header prompt. The visiting card is the PRIMARY source — the header should be a premium digital version of the visiting card.
-  ${hasProductImages ? `\nPRODUCT IMAGES: ${productImageCount} product image(s) are being attached. Include a product banner strip in the header design.` : ''}${productImageHeaderNote}`;
+  CRITICAL INSTRUCTION: Extract ONLY essential contact details from the visiting card: Business Name, 1-2 Primary Phone Numbers, Email, Website, and Address (city/area only). Do NOT include: taglines, services list, proprietor names, or multiple addresses. Keep the header ULTRA-SLIM (5-8% max height).
+  ${(hasProductImages && includeProductsInHeader) ? `\nPRODUCT IMAGES: ${productImageCount} product image(s) are being attached. Include a product banner strip in the header design.` : ''}${productImageHeaderNote}`;
 
   // Build header parts — include visiting card (primary source for header info), logo, and product images
   const headerParts: any[] = [{ text: headerUserPrompt }];
   
-  // Attach visiting card directly to header generation — it is the PRIMARY source of header information
+  // Attach visiting card directly to header generation — extract only essential info
   if (files.visitingCard) {
     headerParts.push({
       inlineData: {
@@ -573,20 +582,21 @@ CRITICAL PRODUCT IMAGE INSTRUCTIONS FOR HEADER:
         data: await fileToBase64(files.visitingCard)
       }
     });
-    headerParts.push({ text: `This is the VISITING CARD — it is the #1 PRIMARY SOURCE for ALL header content.
-EXTRACT EVERY DETAIL from this card and include ALL of them in the header:
-- Business Name (EXACT as printed)
-- Owner/Proprietor Name and Designation
-- ALL Phone Numbers (mobile, landline, WhatsApp — include EVERY number visible)
-- Email Address(es)
+    headerParts.push({ text: `This is the VISITING CARD — extract ONLY ESSENTIAL contact information for a SLIM header:
+- Business Name (EXACT as printed) — MOST PROMINENT
+- 1-2 PRIMARY Phone Numbers (choose mobile/WhatsApp, skip landlines if too many)
+- Email Address (single, primary one)
 - Website URL
-- COMPLETE Full Address (every line of the address)
-- Tagline / Slogan
-- Services / Products mentioned
-- Any other text visible on the card
+- Address (SHORT — city/locality ONLY, not full address)
 
-The header must contain ALL this information. Do NOT skip any detail from the visiting card.
-The visiting card IS the header — just redesigned in a premium digital format.` });
+DO NOT EXTRACT for the header:
+- Owner/Proprietor names or designations
+- Taglines or slogans
+- Services list
+- Multiple addresses
+- Social media handles
+
+Keep it MINIMAL — the header is a thin contact strip (5-8% height), NOT a visiting card replica.` });
   }
   
   // Attach logo directly to header generation
@@ -600,7 +610,8 @@ The visiting card IS the header — just redesigned in a premium digital format.
     headerParts.push({ text: "This is the LOGO — place this exact image as-is in the header. Do NOT recreate or redesign it." });
   }
   
-  if (hasProductImages) {
+  // Only include product images in header if the option is enabled
+  if (hasProductImages && includeProductsInHeader) {
     for (let i = 0; i < files.productImages.length; i++) {
       headerParts.push({
         inlineData: {

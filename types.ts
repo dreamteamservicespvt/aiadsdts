@@ -11,14 +11,16 @@ export enum AttireType {
 export enum DurationPackage {
   SHORT = 16,
   MEDIUM = 32,
-  LONG = 64
+  LONG = 64,
+  CUSTOM = 0
 }
 
 export interface AdFormData {
   adType: AdType;
   festivalName: string;
   attireType: AttireType;
-  duration: DurationPackage;
+  duration: number; // Duration in seconds (must be multiple of 8)
+  durationMode: 'preset' | 'custom'; // Whether using preset or custom duration
   textInstructions: string;
 }
 

@@ -631,13 +631,15 @@ Facial characteristics (MANDATORY — CELEBRITY BEAUTY LEVEL):
 • Sharp, expressive deep eyes with confident, powerful gaze and strong screen presence — eyes that captivate
 • Well-sculpted, perfectly shaped eyebrows — professionally groomed
 • Soft but powerful warm smile showing confidence, trust, and authority — million-dollar smile
-• **PROMINENT BLUSHING CHEEKS — VERY IMPORTANT** — beautiful rosy pink glow on cheekbones, like natural flush of a healthy glowing celebrity. This blush must be CLEARLY VISIBLE and give her face a warm, radiant, alive appearance. NOT heavy makeup, but DEFINITELY noticeable healthy glowing blush
+• **NATURAL HEALTHY COMPLEXION — IMPORTANT** — soft subtle warmth on cheekbones, like a healthy natural glow. The blush must be VERY SUBTLE and NATURAL — NOT pink, NOT rosy, NOT flushed. Think natural Indian skin tone with gentle warmth, not makeup blush. Avoid any pink/red tones on the face.
+• **SKIN TONE MUST BE NATURAL INDIAN** — warm golden-brown undertones, NOT pink, NOT pale, NOT overly fair. The face should have natural warm tones, NOT cool pink tones.
 • Small elegant sharp nose — perfectly proportioned
 • Clean, refined defined jawline — sharp and attractive
 • **Flawless luminous skin** — visible pores for realism, micro highlights, natural unevenness, BUT overall glowing and radiant complexion like she just had a facial
-• Subtle natural makeup — defined eyes, soft lips, healthy glow
+• Subtle natural makeup — defined eyes, soft natural lip color (NOT pink lipstick), healthy glow
 • She must look like she could be on a magazine cover or billboard
 • No plastic skin, no airbrushing, no over-smoothing, no AI glow, no beautification filters
+• **STRICTLY AVOID pink/red/rosy coloring on face — use warm golden natural tones only**
 
 POSE & FRAMING (LOCKED — NON-NEGOTIABLE — HIGHEST PRIORITY):
 **THIS IS THE MOST CRITICAL SECTION — CENTERING AND POSTURE MUST BE PERFECT.**
@@ -819,18 +821,33 @@ Viewer reaction should be: **"This looks like a real high-end brand shoot with a
 
 STRICTLY NO TEXT anywhere except the exact real-world logo signage.
 
-PRODUCT IMAGES PLACEMENT (ONLY WHEN PRODUCT IMAGES ARE ATTACHED):
-If product images are attached along with this prompt, follow these rules:
-• Display the attached product images in the **LOWER 20-25% of the frame** (below the model's waist area)
-• Products should be arranged on a clean surface, shelf, table, or elegant display stand that matches the ${isFestival ? `${festivalName}-decorated` : 'business'} environment
-• Products must look **naturally placed** — as if they are real items on display in the business premises
-• Maintain the **70% model dominance rule** — products fill the bottom portion WITHOUT competing with the model
-• Products should be **well-lit, clearly visible**, and secondary to the model's presence
-• Use the **EXACT product images provided** — do NOT redesign, stylize, or alter the products in any way
-• Arrange multiple products in a clean, organized layout (e.g., slight overlap, cascading, fan-out, or neat row)
-• Products should feel like they are part of the scene — integrated into the environment naturally
-• The products must reinforce what the business sells — acting as visual proof of "what we offer"
-• If products don't match the environment style, add a small elegant display stand or branded surface under them
+PRODUCT IMAGES PLACEMENT (ONLY WHEN PRODUCT IMAGES ARE ATTACHED — STORE BACKGROUND INTEGRATION):
+If product images are attached along with this prompt, follow these **CRITICAL RULES FOR REALISTIC STORE INTEGRATION**:
+
+**PLACEMENT STRATEGY — PRODUCTS IN STORE BACKGROUND (NOT BOTTOM OF FRAME):**
+• DO NOT place products at the bottom of the frame — they will get covered by footer during video editing
+• Instead, place products **IN THE STORE/OFFICE BACKGROUND** — on shelves, display racks, tables, counters, or display cases that are VISIBLE BEHIND the model
+• Products should appear as if they are **ACTUAL MERCHANDISE displayed in the real store/office**
+• Position products on:
+  - **Shelves on the wall** behind the model (at head height or slightly above)
+  - **Display cases or glass cabinets** visible in the background
+  - **Reception counter or desk** beside or behind the model
+  - **Product display stands** positioned in the background scene
+  - **Wall-mounted display racks** showing the products
+
+**PRODUCT CONSISTENCY — ABSOLUTE REQUIREMENT:**
+• Use the **EXACT product images provided** — do NOT redesign, alter, modify, recolor, or stylize the products in ANY way
+• The products must appear **EXACTLY as they look in the uploaded images** — same colors, same packaging, same labels, same appearance
+• Do NOT add artistic effects, do NOT change product shapes, do NOT reimagine the products
+• Products must be **photographically identical** to what was uploaded — as if the real products were photographed on those shelves
+• If the AI cannot place the exact product image, it should use a **placeholder that clearly represents** the product type without changing the original
+
+**INTEGRATION REQUIREMENTS:**
+• Products in the background must look **naturally placed** — as if they were always part of this store's inventory
+• Proper lighting on products — matching the store's ambient light
+• Products should be **clearly visible and recognizable** but NOT competing with the model (model still dominates the frame)
+• The background with products should feel like "walking into this business and seeing their products on display"
+• This makes the image feel like a REAL photo taken at the ACTUAL business location
 
 ---END OF PROMPT FORMAT---
 
@@ -856,7 +873,7 @@ ${isFestival ? `3. For ATTIRE section: The saree must BLEND the ${festivalName} 
 
 5. Always include specific visual elements that make the business type INSTANTLY recognizable from the background alone`}
 
-6. The celebrity beauty, soft blushes, mandatory jewellery, 70% screen presence, and natural logo placement are ALL NON-NEGOTIABLE
+6. The celebrity beauty, natural warm complexion (NOT pink), mandatory jewellery, 70% screen presence, and natural logo placement are ALL NON-NEGOTIABLE
 
 OUTPUT: Generate ONLY the final prompt following the exact format above. Fill in all bracketed placeholders with extracted business information. No explanations, no labels.`;
 };
@@ -874,28 +891,23 @@ When business details are provided, generate ONE final output:
 • Do NOT include explanations unless asked
 • Do NOT mention video, animation, or motion ANYWHERE
 
-FIRST: Analyze all provided files and EXTRACT (VISITING CARD IS THE #1 PRIMARY SOURCE):
-1. Business Name / Brand Name — extract EXACTLY as printed on the visiting card
-2. Owner / Proprietor Name — if visible on visiting card
-3. Designation / Title — if visible on visiting card
-4. Business Type (detect from context)
-5. Services / What they do — extract ALL services listed on visiting card
-6. Contact Number(s) — extract EVERY phone number from the visiting card (mobile, landline, WhatsApp, etc.)
-7. Email Address(es) — extract ALL emails from visiting card
-8. Website URL — extract from visiting card
-9. Full Address / Location — extract the COMPLETE address as printed on the visiting card
-10. Tagline / Slogan — extract from visiting card
-11. Social Media Handles — if visible on visiting card
-12. Any theme or occasion (festival, Republic Day, etc.)
+FIRST: Analyze all provided files and EXTRACT ONLY ESSENTIAL INFORMATION:
+1. Business Name / Brand Name — extract EXACTLY as printed
+2. Business Type (detect from context)
+3. Contact Number(s) — PRIMARY phone number(s) only
+4. Email Address — if available
+5. Website URL — if available
+6. Full Address / Location — if available
+${isFestival ? `7. Festival theme: ${festivalName}` : ''}
 
-**VISITING CARD IS THE ABSOLUTE PRIMARY SOURCE FOR HEADER INFORMATION — THIS IS CRITICAL:**
-The visiting card contains the MOST ACCURATE and COMPLETE business information.
-- Extract EVERY SINGLE piece of information visible on the visiting card
-- Do NOT skip or summarize any detail — use ALL of it
-- Phone numbers, email, website, address, tagline, services — ALL must appear in the header
-- If the visiting card has multiple phone numbers, include ALL of them
-- If the visiting card has a full address, include the ENTIRE address
-- The header is essentially a DIGITAL version of the visiting card — every detail matters
+**KEEP IT SIMPLE — ONLY ESSENTIAL DETAILS:**
+The header should contain ONLY the most important contact information.
+- Business Name (PROMINENT)
+- 1-2 Contact Numbers (PRIMARY)
+- Email and Website (if available)
+- Address (SHORT — city/area only if full address is too long)
+- DO NOT include: taglines, services list, proprietor names, designations, social media handles
+- The header is a SLIM contact strip — NOT a visiting card replica
 
 ===== EXACT OUTPUT FORMAT (FOLLOW THIS STRUCTURE PRECISELY) =====
 
@@ -903,203 +915,117 @@ Your output prompt MUST follow this EXACT structure with these EXACT section hea
 
 ---START OF PROMPT FORMAT---
 
-Create a clean, premium PROMOTIONAL HEADER for a vertical IMAGE in 9:16 aspect ratio${isFestival ? ` with a **FULL IMMERSIVE ${festivalName.toUpperCase()} THEME** — the header must COMPLETELY embody the festival spirit` : ''}.
+Create a clean, premium PROMOTIONAL HEADER for a vertical IMAGE in 9:16 aspect ratio${isFestival ? ` with a **${festivalName.toUpperCase()} THEME** — the header must embody the festival spirit while matching the business type` : ''}.
 
-HEADER PLACEMENT & SIZE (CRITICAL — NON-NEGOTIABLE)
+HEADER PLACEMENT & SIZE (ABSOLUTELY CRITICAL — STRICTLY ENFORCED)
 – Exact 9:16 ratio (IMAGE ONLY)
-– Header must occupy ONLY the TOP 8-10% of the image — NO MORE
-– Slim, horizontal header strip placed strictly at the TOP edge
-– Remaining 90-92% of the frame must stay completely clear, empty, and untouched
-– The header is a THIN STRIP at the very top — think of it like a corporate letterhead top band
-– Designed for posters, social creatives, campaign banners, and WhatsApp status
+– **Header must occupy ONLY 5-8% of the image height — MAXIMUM 8%, NEVER MORE**
+– This is a VERY THIN horizontal strip at the ABSOLUTE TOP edge
+– Remaining 92-95% of the frame must stay completely clear, empty, and untouched
+– Think of it as an ULTRA-SLIM letterhead band — thinner than you think
+– **If the header seems too small, that's CORRECT — it should be minimal**
+– The header should feel like a thin ribbon at the top, not a banner
 
-BRAND INFORMATION (EXTRACT ALL FROM VISITING CARD — EVERY DETAIL MATTERS)
-Brand / Business Name: [EXACT NAME FROM VISITING CARD]
-Owner / Proprietor: [NAME AND DESIGNATION FROM VISITING CARD — if available]
-Business Type: [DETECTED BUSINESS TYPE]
-${isFestival ? `Campaign Focus: ${festivalName} Wishes / Greetings` : 'Campaign Focus: [MAIN SERVICE OR CAMPAIGN]'}
-Phone Numbers: [ALL CONTACT NUMBERS FROM VISITING CARD — mobile, landline, WhatsApp]
-Email: [EMAIL FROM VISITING CARD — if available]
-Website: [WEBSITE URL FROM VISITING CARD — if available]
-Full Address: [COMPLETE ADDRESS FROM VISITING CARD — if available]
-Tagline: [TAGLINE / SLOGAN FROM VISITING CARD — if available]
-Services: [KEY SERVICES LISTED ON VISITING CARD — if available]
-Logo: Take the ATTACHED LOGO image file and place it directly as-is — do NOT generate or recreate it
+BRAND INFORMATION (MINIMAL — ONLY ESSENTIALS)
+Brand / Business Name: [EXACT NAME — this is the MOST prominent element]
+Business Type: [DETECTED TYPE — Medical, Real Estate, Fashion, Food, Tech, Education, Solar, Laundry, Jewellery, etc.]
+${isFestival ? `Theme: ${festivalName} Festival` : 'Style: Professional/Corporate'}
+Phone: [1-2 PRIMARY contact numbers only — NOT all numbers]
+Email: [If available — single email]
+Website: [If available — simple URL]
+Address: [SHORT — city/locality only, NOT full address]
+Logo: ATTACHED — place the EXACT uploaded logo file AS-IS, do NOT generate/recreate/modify it
 
-HEADER CONTENT STRUCTURE (VISITING CARD INFO = HEADER INFO)
-– Left or Center: Take the ATTACHED LOGO image and place it exactly as-is (do NOT generate or recreate the logo — use the attached file directly)
-– Primary Text (Most Prominent):
-  [BRAND NAME — exactly as on visiting card]
-– Secondary Line (Smaller, Clean):
-  ${isFestival ? `"${festivalName} Wishes" or "Happy ${festivalName}" | [BUSINESS TYPE]` : '[BUSINESS TYPE] | [MAIN SERVICE/CAMPAIGN]'}
-– Tagline (Below brand name or as a subtle line):
-  [TAGLINE from visiting card — if available]
-– Contact Info Strip (Bold, high-contrast, visually prominent):
-  [ALL PHONE NUMBERS] | [EMAIL] | [WEBSITE]
-– Address Line (Smaller, clean text at bottom of header strip):
-  [FULL ADDRESS from visiting card — if available]
+HEADER CONTENT STRUCTURE (ULTRA-COMPACT — FITS IN 5-8% HEIGHT)
+– **Logo**: Place the ATTACHED logo image file EXACTLY as-is on the LEFT (small size, fits within slim header)
+  • DO NOT generate, recreate, describe, or modify the logo in ANY way
+  • Use the EXACT uploaded file — just place it directly
+  • Logo should be small but clearly visible
+– **Business Name**: Bold, prominent text (LARGEST text in header)
+– **Contact Info**: Small, clean text — "[PHONE] | [EMAIL] | [WEBSITE]" in one compact line
+– **Address**: Very small text — city/area only (optional, can skip if space is tight)
+– **DO NOT include**: taglines, services, proprietor name, "Est. year", multiple addresses
 
-${isFestival && festivalTheme ? `${festivalName.toUpperCase()} + BUSINESS-TYPE BLENDED THEME STYLING (CRITICAL — MUST BLEND FESTIVAL + BUSINESS IDENTITY):
-**The header must BLEND ${festivalName} festival spirit WITH the specific business sector identity — not generic festival, not generic business, but a UNIQUE combination of BOTH.**
+${isFestival && festivalTheme ? `${festivalName.toUpperCase()} + BUSINESS-TYPE BLENDED THEME (HEADER MUST BE UNIQUE PER BUSINESS + FESTIVAL):
+**Every business type celebrating ${festivalName} should have a DIFFERENT header color scheme.**
 
-– **BACKGROUND (FESTIVAL + BUSINESS BLEND):**
-  • BASE: ${festivalTheme.headerColors}
-  • ACCENT: Incorporate subtle [BUSINESS TYPE] color elements
-  • Medical/Healthcare + ${festivalName}: Festival colors with subtle blue/teal health-trust accents
-  • Real Estate + ${festivalName}: Festival colors with subtle gold/black prestige accents
-  • Fashion/Boutique + ${festivalName}: Festival colors with subtle plum/wine elegance
-  • Food/Catering + ${festivalName}: Festival colors with warm appetizing tones
-  • Tech/Digital + ${festivalName}: Festival colors with modern blue-purple tech feel
-  • Education + ${festivalName}: Festival colors with trustworthy academic blue hints
-  • Solar/Energy + ${festivalName}: Festival colors with green-blue sustainability hints
-  • Jewellery + ${festivalName}: Festival colors with luxurious gold/maroon opulence
-  • Laundry/Wash + ${festivalName}: Festival colors with fresh clean blue/white hints
-  • Default: Festival colors as primary, business brand colors as subtle accents
+– **BACKGROUND COLOR FORMULA (FESTIVAL + BUSINESS BLEND):**
+  • Start with ${festivalName} base: ${festivalTheme.headerColors}
+  • Then blend with BUSINESS-TYPE accent colors:
+    - Medical + ${festivalName}: Festival gradient with subtle teal/blue healthcare trust hints
+    - Real Estate + ${festivalName}: Festival gradient with subtle gold/black prestige hints  
+    - Fashion + ${festivalName}: Festival gradient with subtle wine/plum elegance hints
+    - Food/Catering + ${festivalName}: Festival gradient with warm appetizing amber hints
+    - Tech/Digital + ${festivalName}: Festival gradient with modern purple/blue tech hints
+    - Education + ${festivalName}: Festival gradient with academic blue trust hints
+    - Solar/Energy + ${festivalName}: Festival gradient with green sustainability hints
+    - Jewellery + ${festivalName}: Festival gradient with luxurious gold/maroon hints
+    - Laundry + ${festivalName}: Festival gradient with fresh clean blue/white hints
+  • The result: A ${festivalName} header that ALSO reflects the business identity
+
+– **TINY FESTIVAL ACCENTS (FIT WITHIN 5-8% HEIGHT):**
+  • Add 1-2 VERY SMALL ${festivalName} decorative elements in corners (tiny flowers, icons, or patterns)
+  • Cultural elements hint: ${festivalTheme.culturalElements}
+  • These must be TINY — do not overflow the slim header height
+  • Gold/metallic finish for festival elements
   
-– **PATTERN OVERLAYS:** ${festivalTheme.headerPatterns}
-– **ACCENT ELEMENTS:** ${festivalTheme.headerAccents}
-– **MOOD:** ${festivalTheme.mood}
+– **FESTIVAL RECOGNITION TEST:**
+  Anyone seeing the header should instantly think: "This is a [BUSINESS TYPE] celebrating ${festivalName}"
+  
+` : `BUSINESS-TYPE SPECIFIC HEADER STYLING (EACH BUSINESS TYPE = DIFFERENT HEADER):
+**The header background must MATCH the business type — NOT generic.**
 
-– **FESTIVAL DECORATIVE ELEMENTS IN HEADER (MANDATORY — KEEP SMALL, KEEP ELEGANT):**
-  • Add small, elegant ${festivalName}-specific decorative icons/motifs integrated into the header corners or borders
-  • Cultural elements to incorporate: ${festivalTheme.culturalElements}
-  • These should be TINY but clearly recognizable — corner flowers, border patterns, or subtle icons
-  • Elements should be rendered in gold, silver, or theme-appropriate metallic finish
-  • They must feel INTEGRATED into the slim header design — NOT over-crowding the 8-10% space
-  • Think: What would a world-class designer add to a SLIM header strip to make it INSTANTLY recognizable as ${festivalName}?
+– **HEADER COLORS BY BUSINESS TYPE (MANDATORY):**
+  • **Medical/Healthcare**: Deep blue → teal gradient, clean medical trust feel
+  • **Real Estate/Property**: Black base with gold accents, prestige feel
+  • **Fashion/Boutique**: Deep wine/plum gradient, elegant feminine feel
+  • **Food/Restaurant**: Warm gold → orange gradient, appetizing warmth
+  • **Tech/Software/Agency**: Blue → purple gradient, modern innovative feel
+  • **Education/Consultancy**: Academic blue gradient, trustworthy professional
+  • **Solar/Energy**: Green-teal gradient, sustainability feel
+  • **Laundry/Wash**: Fresh blue-white, clean pure aesthetic
+  • **Jewellery/Gold**: Deep maroon with gold, luxurious opulent feel
+  • **Electrical/Hardware**: Steel grey or navy, professional service feel
+  • **Tea/Beverage**: Green with golden warmth, earthy premium feel
+  • **Default**: Extract primary color from logo, create premium gradient
 
-– **FESTIVAL + BUSINESS COLOR BALANCE:**
-  • The ${festivalName} festival colors are PRIMARY (60-70%)
-  • Business-type colors are SECONDARY accents (30-40%)
-  • A medical clinic's ${festivalName} header should look DIFFERENT from a real estate company's ${festivalName} header
-  • Same festival, different business = different header color combinations
-  • Every viewer must think: "This is [BUSINESS TYPE] celebrating ${festivalName}"
+– **BUSINESS FEEL:**
+  Anyone seeing the header should instantly think: "This looks like a [BUSINESS TYPE] brand"
+`}
 
-– **FESTIVAL BORDER/SEPARATOR:**
-  • The bottom separator line should incorporate ${festivalName}-themed design elements
-  • Keep it THIN — subtle festive pattern, NOT a thick decorative band
-  • Example: Tiny flowers, small cultural motifs, or themed shapes as a delicate border
+TYPOGRAPHY (COMPACT FOR SLIM HEADER)
+– Business name: Bold sans-serif, largest but still fits in 5-8%
+– Contact info: Small, clean font, single line
+– All text must fit comfortably in the ultra-slim header strip
 
-– **FESTIVAL GLOW & ATMOSPHERE:**
-  • Add subtle ${festivalName}-appropriate light effects:
-    - Warm golden glow for devotional festivals (Shivaratri, Diwali)
-    - Bright warm accents for harvest festivals (Sankranthi, Pongal)
-    - Dignified tricolor/metallic finish for patriotic occasions (Republic Day, Independence Day)
-  • The glow should enhance festive feel while keeping the header slim and professional` : `BUSINESS-TYPE SPECIFIC STYLING (CRITICAL — HEADER MUST MATCH BUSINESS SECTOR):
-**The header background, colors, and feel must INSTANTLY communicate what type of business this is — each business type gets a UNIQUE header style.**
-
-– **BACKGROUND COLORS BY BUSINESS TYPE (MANDATORY — MUST FOLLOW):**
-  • **Medical/Healthcare/Clinic/Hospital:** Premium deep blue → teal gradient, clean medical trust aesthetic, subtle healthcare patterns
-  • **Real Estate/Property/Builders:** Luxurious black base with rich gold accents, prestige and stability feel
-  • **Fashion/Boutique/Saree/Clothing:** Deep plum or wine gradient with elegant gold accents, feminine luxury
-  • **Food/Restaurant/Catering/Hotel:** Warm gold → deep orange gradient, appetizing and welcoming warmth
-  • **Tech/Software/Digital/Advertising Agency:** Modern blue → purple gradient, innovative tech aesthetic
-  • **Education/School/College/Consultancy:** Soft academic blue gradient, trustworthy and professional
-  • **Solar/Energy/Power:** Green and teal gradient with sustainability feel, clean energy aesthetic
-  • **Laundry/Wash/Dry Clean:** Fresh blue and white tones, clean and pure aesthetic
-  • **Mattress/Furniture/Sleep:** Soft blue or lavender tones, comfort and relaxation feel
-  • **Electrical/Plumbing/Hardware:** Professional steel grey or deep blue, technical service feel
-  • **Tea/Coffee/Beverage:** Rich green with warm golden accents, earthy warmth
-  • **Jewellery/Gold/Diamond:** Deep maroon or purple with luxurious gold, opulent and premium
-  • **Default/Other:** Premium gradient using colors extracted from the business logo/branding
-
-– **BUSINESS-SPECIFIC SUBTLE PATTERNS (OPTIONAL BUT RECOMMENDED):**
-  • Add VERY subtle watermark/pattern elements that hint at the business type
-  • Medical: Subtle healthcare icons, clean geometric patterns
-  • Real Estate: Subtle building silhouettes, architectural lines
-  • Fashion: Elegant fabric textures, paisley hints
-  • Food: Warm texture, subtle culinary elements
-  • Tech: Geometric patterns, circuit-like subtle lines
-  • Keep patterns at 5-10% opacity — they should be FELT not seen directly
-
-– **HEADER MOOD BY BUSINESS:**
-  • Medical: Clean, trustworthy, professional, calming
-  • Real Estate: Prestigious, stable, successful, luxurious
-  • Fashion: Elegant, feminine, stylish, premium
-  • Food: Warm, welcoming, appetizing, inviting
-  • Tech: Modern, innovative, cutting-edge, dynamic
-  • Education: Academic, trustworthy, aspirational, professional
-  • The header color and feel should make the business type OBVIOUS even without reading the text`}
-
-TYPOGRAPHY
-– Bold, modern sans-serif font for brand name
-– Clean professional font for secondary text and tagline
-– Contact number in bold, high-visibility font
-– Tight, premium spacing without increasing header height
-${isFestival ? `– Font colors must complement the ${festivalName} theme palette
-– Consider using a slightly decorative but professional font for the festival wishes text` : ''}
+LOGO HANDLING (CRITICAL — ABSOLUTE RULE)
+– Take the ATTACHED logo image file and place it EXACTLY AS-IS
+– DO NOT generate, recreate, or design a new logo
+– DO NOT describe what the logo looks like
+– DO NOT modify, recolor, or resize beyond fitting the header
+– The logo is an ATTACHED FILE — just USE IT directly
+– If the prompt generator cannot place attachments, write: "Place the client's uploaded logo here AS-IS"
 
 DESIGN STYLE
-– Corporate, high-end branding aesthetic
-– Minimal, powerful, and professional
-– Clean gradients, no excessive graphics
-– Thin bottom separator line to define header area${isFestival ? ` (festival-themed separator)` : ''}
-– Glassmorphism or soft blur effect optional
-${isFestival ? `– The overall design must feel like a PREMIUM ${festivalName} FESTIVAL HEADER — not just a regular business header with a color change
-– It should feel like a top branding agency designed this SPECIFICALLY for ${festivalName}
-– The festival theme must be UNMISTAKABLE and DOMINANT` : ''}
+– ULTRA-SLIM: 5-8% of image height maximum
+– Clean, minimal, professional
+– No excessive decorations that increase header height
+– Thin bottom edge line to separate header from content area
+– Premium corporate feel in minimal space
 
 STRICT RULES
-– IMAGE ONLY (do NOT mention video or animation)
-– Header must remain STRICTLY within 8-10% height — this is NON-NEGOTIABLE
-– Include ALL contact details from the visiting card (phone numbers, email, website, address)
-– If the visiting card has multiple phone numbers, ALL must appear in the header
-– If the visiting card has an address, the FULL address must appear in the header
-– Do NOT generate or recreate the logo — take the ATTACHED LOGO image file and place it directly as-is
-– Do NOT describe, interpret, or redesign the logo — just use the attached image
-– Use ONLY the information extracted from visiting card and provided materials
-– Do NOT invent taglines, services, or contact details — only use what's on the visiting card
-${isFestival ? `– The ${festivalName} festival theme colors and elements should be blended with business-type colors
-– Festival decorative elements are MANDATORY — do NOT skip them
-– The header must be INSTANTLY recognizable as a ${festivalName} celebration header
-– The logo must be taken from the attached file — do NOT generate a new one` : ''}
-
-OUTPUT QUALITY
-– Ultra-sharp, high-resolution
-– Campaign-ready, professional finish
-– Suitable for WhatsApp creatives, posters, banners, and digital ads
-– Looks designed by a top-tier branding agency
-${isFestival ? `– Must look like a premium ${festivalName} festival campaign by a national-level brand` : ''}
-
-PRODUCT IMAGES IN HEADER (ONLY WHEN PRODUCT IMAGES ARE ATTACHED):
-If product images are attached along with this prompt, follow these rules:
-– Add a slim **PRODUCT BANNER STRIP** at the very bottom edge of the header area
-– Display the attached product images as small, clean **thumbnail-style images in a horizontal row**
-– Products should be compact but clearly recognizable within the header's slim design
-– Use the **EXACT product images provided** — do NOT redesign or alter the products
-– The product strip acts as a "product showcase" reinforcing what the business sells
-– Products should have a subtle background (matching the header gradient) to blend naturally
-– Keep the product strip height minimal — it should NOT increase the header's 10% height significantly
-– If multiple products: arrange them evenly spaced in a single row with equal sizing
+– **HEADER HEIGHT: 5-8% MAXIMUM — THIS IS NON-NEGOTIABLE**
+– IMAGE ONLY (no video, no animation)
+– MINIMAL content — only name, phone, email, website, address
+– DO NOT add taglines, services, descriptions
+– Logo is ATTACHED — do NOT generate it
+– Business-type colors are MANDATORY — each business looks different
+${isFestival ? `– ${festivalName} theme is MANDATORY — but blended with business type
+– Festival elements must be TINY and fit within the slim header` : ''}
 
 ---END OF PROMPT FORMAT---
 
-===== INSTRUCTIONS FOR FILLING THE FORMAT =====
-
-1. Replace all [BRACKETED PLACEHOLDERS] with actual extracted information
-2. If information is not available, either omit that line or write "Not provided"
-3. For BUSINESS TYPE, detect from context:
-   - Medical, Healthcare, Clinic, Hospital
-   - Real Estate, Property, Builders
-   - Fashion, Boutique, Clothing, Saree
-   - Food, Restaurant, Catering, Hotel
-   - Tech, Software, App, Digital, Advertising Agency
-   - Education, School, College, Consultancy
-   - Solar, Energy, Power
-   - Laundry, Wash, Dry Clean
-   - Electrical, Plumbing, Hardware, Appliance
-   - Tea, Coffee, Beverage
-   - Jewellery, Gold, Diamond
-
-${isFestival ? `4. FESTIVAL THEME OVERRIDE: The ${festivalName} festival colors and elements specified above MUST take priority over business-type color schemes. The business identity (logo, name) remains, but the visual theme is FULLY ${festivalName}.
-
-5. Every decorative element, cultural motif, and festival-specific pattern listed must appear in the generated prompt. DO NOT skip any festival elements.
-
-6. The header should look like it was designed by India's TOP agency specifically for a ${festivalName} campaign — not a generic header with a color swap.` : `4. Choose appropriate color scheme based on detected business type
-
-5. If festival mode is active, incorporate ${festivalName || 'festival'} theme colors and styling`}
-
-OUTPUT: Generate ONLY the final prompt following the exact format above. Fill in all bracketed placeholders with extracted business information. No explanations, no labels, no "Prompt:" prefix.`;
+OUTPUT: Generate ONLY the final prompt. No explanations, no labels.`;
 };
 
 export const getToneForAdType = (adType: string) =>
@@ -1121,38 +1047,50 @@ YOUR TASK: Generate a ${duration}-second voice-over script for a business advert
      family → ఫ్యామిలీ, happy → హ్యాపీ, success → సక్సెస్, special → స్పెషల్, premium → ప్రీమియం,
      number → నంబర్, visit → విజిట్, expert → ఎక్స్పర్ట్, professional → ప్రొఫెషనల్, guarantee → గ్యారంటీ,
      choice → ఛాయిస్, smart → స్మార్ట్, excellent → ఎక్సలెంట్, world class → వరల్డ్ క్లాస్
-   • PHONE NUMBERS must be spelled out as Telugu words for EACH DIGIT, spoken naturally:
-     0 → జీరో, 1 → వన్, 2 → టూ, 3 → త్రీ, 4 → ఫోర్, 5 → ఫైవ్, 6 → సిక్స్, 7 → సెవెన్, 8 → ఎయిట్, 9 → నైన్
-   • Group phone digits in natural speaking rhythm with commas: "నైన్, ఎయిట్, ఫోర్, నైన్, ఎయిట్... త్రీ, ఫోర్, వన్, జీరో, ఫైవ్."
-   • Format: first 5 digits together, pause (...), then last 5 digits
-   • Example: 9849834105 → "నైన్, ఎయిట్, ఫోర్, నైన్, ఎయిట్... త్రీ, ఫోర్, వన్, జీరో, ఫైవ్."
-   • Do NOT use Telugu numeral digits (౧౨౩) — spell them out as WORDS
-   • All other numbers (years, counts) should also be in Telugu words: 10 → పది, 100 → వంద, 1000 → వెయ్యి
    • Brand names should be transliterated to Telugu script
 
-2. LANGUAGE STYLE — MODERN CONVERSATIONAL TELUGU (2025/2026):
+2. ALL NUMBERS MUST BE WRITTEN AS TELUGU WORDS (CRITICAL — NO DIGITS ALLOWED):
+   • PHONE NUMBERS: ${segmentCount === 2 ? `DO NOT write the contact number in the script. Instead, use this phrase: "స్క్రీన్ పై వున్న నంబర్ ని ఇప్పుడే సంప్రదించండి" (meaning: contact the number shown on screen now)` : `Spell out as Telugu words for EACH DIGIT:
+     0 → జీరో, 1 → వన్, 2 → టూ, 3 → త్రీ, 4 → ఫోర్, 5 → ఫైవ్, 6 → సిక్స్, 7 → సెవెన్, 8 → ఎయిట్, 9 → నైన్
+     Group phone digits in natural speaking rhythm: "నైన్, ఎయిట్, ఫోర్, నైన్, ఎయిట్... త్రీ, ఫోర్, వన్, జీరో, ఫైవ్."`}
+   • YEARS in Telugu words: 2025 → రెండు వేల ఇరవై ఐదు, 10 years → పది సంవత్సరాలు
+   • COUNTS/QUANTITIES in Telugu words: 50 → యాభై, 100 → వంద, 1000 → వెయ్యి, 5000 → ఐదు వేలు
+   • PRICES in Telugu words: ₹999 → తొమ్మిది వందల తొంభై తొమ్మిది రూపాయలు, ₹50 → యాభై రూపాయలు
+   • PERCENTAGES in Telugu words: 50% → యాభై శాతం, 20% → ఇరవై శాతం
+   • Do NOT use any digit symbols (0-9 or ౧౨౩) — ONLY Telugu words
+
+3. NO SPECIAL CHARACTERS ALLOWED IN OUTPUT:
+   • DO NOT use any of these characters: - & / @ # $ % ^ * ( ) + = [ ] { } | \\ : ; " ' < > , . ? !
+   • Use only Telugu script letters and spaces
+   • Instead of "10-20" write "పది నుండి ఇరవై"
+   • Instead of "A & B" write "ఏ మరియు బి"
+   • Instead of "24/7" write "ఇరవై నాలుగు గంటలు ఏడు రోజులు"
+   • Replace commas with natural pauses in speech (spaces)
+   • Replace periods with natural line breaks
+
+4. LANGUAGE STYLE — MODERN CONVERSATIONAL TELUGU (2025/2026):
    • Write how a Telugu person in Andhra Pradesh ACTUALLY speaks today
    • Mix Telugu + commonly used English words — but ALL in Telugu script
    • AVOID archaic/pure/bookish Telugu words like: "సౌభాగ్యము", "శుభములు", "ఐశ్వర్యము", "సంతసము", "వైభవము"
    • USE modern relatable words like: "హ్యాపీనెస్", "సక్సెస్", "ఫ్యామిలీ", "స్పెషల్", "బెస్ట్", "ట్రస్ట్"
    • Sound like a PREMIUM TV ad — NOT a government announcement, NOT a casual chat, NOT a radio jingle
 
-===== STRICT 8-SECOND SEGMENT TIMING (CRITICAL) =====
+===== STRICT 8-SECOND SEGMENT TIMING — VERY SHORT SCRIPTS (CRITICAL) =====
 
 • Total Duration: ${duration} seconds
-• Total Segments: ${segmentCount} segments of 8 seconds each
-• MAXIMUM 20-25 Telugu words per 8-second segment — NO MORE
-• Average Telugu speaking pace: 2.5-3 words per second
-• READ EACH SEGMENT ALOUD mentally — if it takes more than 8 seconds, CUT words
-• Keep sentences SHORT, PUNCHY, and IMPACTFUL
-• DO NOT pack too much information into one segment
-• Split long ideas across multiple segments
+• Total Clips: ${segmentCount} clips of 8 seconds each
+• MAXIMUM 12-18 Telugu words per 8-second clip — KEEP IT VERY SHORT
+• The video clips will be extended visually, so script must be CONCISE
+• Average Telugu speaking pace: 2-2.5 words per second
+• READ EACH SEGMENT ALOUD mentally — if it takes more than 6-7 seconds, CUT words
+• Keep sentences EXTREMELY SHORT, PUNCHY, and IMPACTFUL
+• Every word must EARN its place — no filler, no fluff, no repetition
 
-   Word count guide:
-   - Festival wishes segment: 18-22 words max
-   - Business intro segment: 20-25 words max  
-   - Features/benefits segment: 20-25 words max
-   - Call-to-action segment: 18-22 words max
+   Word count guide (STRICT):
+   - Festival wishes clip: 12-15 words max
+   - Business intro clip: 15-18 words max  
+   - Features/benefits clip: 12-18 words max
+   - Call-to-action clip: 12-15 words max
 
 ===== CONTENT & TONE (WORLD-CLASS QUALITY) =====
 
@@ -1163,114 +1101,126 @@ TONE: ${getToneForAdType(adType)}
    • EMOTIONAL CONNECTION — speak to aspirations, dreams, family, trust
    • RHYTHM & FLOW — every line sounds musical when spoken aloud
    • MEMORABLE PUNCHLINES — at least one line people will remember
-   • BRAND NAME woven naturally 3-4 times through the script
+   • BRAND NAME woven naturally 2-3 times through the script
    • CONFIDENT authority — like a brand that KNOWS it's the best
-   • CLEAN, CRISP messaging — no filler words, no fluff
+   • ULTRA CLEAN CRISP messaging — no filler words, no fluff
 
 ✅ PREMIUM PHRASES (in Telugu script naturally):
-   • "{బ్రాండ్ నేమ్}... క్వాలిటీ మా కమిట్‌మెంట్, సర్వీస్ మా ప్యాషన్!"
+   • "{బ్రాండ్ నేమ్} క్వాలిటీ మా కమిట్‌మెంట్"
    • "మీ డ్రీమ్స్ మా రెస్పాన్సిబిలిటీ"
-   • "ఇయర్స్ ఆఫ్ ట్రస్ట్, జనరేషన్స్ ఆఫ్ ఎక్సలెన్స్"
+   • "ట్రస్ట్ మరియు ఎక్సలెన్స్"
    • "స్మార్ట్ ఛాయిస్ ఫర్ స్మార్ట్ పీపుల్"
-   • "మీ శాటిస్ఫ్యాక్షన్... మా గ్యారంటీ"
+   • "మీ శాటిస్ఫ్యాక్షన్ మా గ్యారంటీ"
 
 ❌ STRICTLY AVOID:
    • Any English alphabet in the output
+   • Any special characters (hyphens, ampersands, slashes, etc.)
+   • Any digit symbols — only Telugu word-numbers
    • Archaic/bookish Telugu nobody speaks
    • Government announcement / radio jingle style
    • Desperate/begging sales tone
    • Repetitive boring phrasing
    • Filler words that add no value
    • Casual chatty friend-talk
+   • Long sentences — keep everything SHORT
 
 ===== ADDRESS/LOCATION RULE =====
    • ONLY include address/location if explicitly provided in the business information
-   • If provided → include it naturally in the LAST segment
+   • If provided → include it naturally in the LAST clip
    • If NOT provided → DO NOT add any location/city names, DO NOT make up addresses
+
+${segmentCount === 2 ? `===== SPECIAL 2-CLIP AD RULE (VERY IMPORTANT) =====
+Since this is a short 2-clip (${duration} second) ad:
+• In the LAST clip (Clip 2), DO NOT spell out the contact number digit by digit
+• Instead, use this exact phrase: "స్క్రీన్ పై వున్న నంబర్ ని ఇప్పుడే సంప్రదించండి"
+• This tells viewers to contact the number displayed on screen
+• This saves time and keeps the script concise
+` : ''}
 
 ===== ANALYSIS REQUIREMENTS =====
 Extract from all provided files:
    - Business name (USE PROMINENTLY — transliterate to Telugu)
    - Services/products (HIGHLIGHT key offerings)
    - Unique selling points (EMPHASIZE differentiators)
-   - Contact numbers (CONVERT to Telugu digits)
+   - Contact numbers (${segmentCount === 2 ? 'use screen reference phrase instead' : 'CONVERT to Telugu word-digits'})
    - Target audience (SPEAK to their aspirations)
 
 ${getAdTypeMode(adType, festivalName)}
 
 ===== SCRIPT STRUCTURE (MANDATORY) =====
 
-${adType === 'festival' ? `Segment 1 / 0-8: [FESTIVAL WISHES ONLY — 100% PURE GREETINGS]
+${adType === 'festival' ? `Clip 1 / 0-8: [FESTIVAL WISHES ONLY — 100% PURE GREETINGS]
 • MANDATORY FIXED FORMAT (fill in business name and festival name):
-  "{Business Name in Telugu} తరపున మీకు మరియు మీ కుటుంబ సభ్యులకు {${festivalName}} శుభాకాంక్షలు."
+  "{Business Name in Telugu} తరపున మీకు మరియు మీ కుటుంబ సభ్యులకు {${festivalName}} శుభాకాంక్షలు"
 • This line is LOCKED — do NOT rephrase, reorder, or skip it
-• After this line, add ONE warm modern festive wish in Telugu
-• This segment is 100% FESTIVAL WISHES — ZERO business promotion
-• 18-22 words max
-• Example: "డ్రీమ్ టీమ్ సర్వీసెస్ తరపున మీకు, మీ ఫ్యామిలీకి ${festivalName} శుభాకాంక్షలు! ఈ పండుగ మీకు హ్యాపీనెస్ తేవాలని కోరుకుంటున్నాం."
+• This clip is 100% FESTIVAL WISHES — ZERO business promotion
+• 12-15 words max
+• Example: "డ్రీమ్ టీమ్ సర్వీసెస్ తరపున మీకు మీ ఫ్యామిలీకి ${festivalName} శుభాకాంక్షలు"
 
-Segment 2 / 8-16: [100% PURE BUSINESS — Brand Introduction]
-• NO festival words from this segment onward — treat as regular business ad
+Clip 2 / 8-16: [100% PURE BUSINESS — Brand + CTA]
+• NO festival words from this clip onward — treat as regular business ad
 • Introduce business name with AUTHORITY
-• Present core service/product with CONFIDENCE
-• 20-25 words max` : `Segment 1 / 0-8: [POWER HOOK — Grab Attention Instantly]
+• Present core service BRIEFLY
+• ${segmentCount === 2 ? 'End with: "స్క్రీన్ పై వున్న నంబర్ ని ఇప్పుడే సంప్రదించండి"' : 'Include contact if more clips available'}
+• 15-18 words max` : `Clip 1 / 0-8: [POWER HOOK — Grab Attention Instantly]
 • Start with a BOLD statement or compelling question
 • Create INSTANT curiosity or emotional punch
 • Sound like a PREMIUM TV commercial opening — not casual talk
-• 20-25 words max`}
+• 15-18 words max`}
 
-${adType !== 'festival' ? `Segment 2 / 8-16: [BRAND AUTHORITY — Establish Trust]
+${adType !== 'festival' ? `Clip 2 / 8-16: [BRAND AUTHORITY + CTA]
 • Introduce business name with PRIDE and AUTHORITY
-• Present core services with CONFIDENT, premium language
-• Position as the LEADER in the industry
-• 20-25 words max` : ''}
+• Present core services BRIEFLY with CONFIDENT premium language
+• ${segmentCount === 2 ? 'End with: "స్క్రీన్ పై వున్న నంబర్ ని ఇప్పుడే సంప్రదించండి"' : 'Include contact number in Telugu words'}
+• 15-18 words max` : ''}
 
-${duration >= 24 ? `Segment ${adType === 'festival' ? '3' : '3'} / ${adType === 'festival' ? '16-24' : '16-24'}: [VALUE & BENEFITS — Why Choose This Brand]
+${duration >= 24 ? `Clip ${adType === 'festival' ? '3' : '3'} / ${adType === 'festival' ? '16-24' : '16-24'}: [VALUE & BENEFITS]
 • Highlight UNIQUE benefits with IMPACTFUL language
 • Social proof: years of trust, families served, expertise
-• Make it PERSONAL: "మీ సక్సెస్... మా ప్రయారిటీ"
-• 20-25 words max` : ''}
+• Keep it SHORT and PUNCHY
+• 12-18 words max` : ''}
 
-${duration >= 32 ? `Segment ${adType === 'festival' ? '4' : '4'} / 24-32: [CALL TO ACTION — Strong & Confident Close]
+${duration >= 32 ? `Clip ${adType === 'festival' ? '4' : '4'} / 24-32: [CALL TO ACTION — Strong Close]
 • Strong CTA — not begging but INVITING
-• Include contact number IN TELUGU DIGITS
-• End with a MEMORABLE tagline that sticks
+• Include contact number IN TELUGU WORDS (spell each digit)
+• End with a MEMORABLE tagline
 • If address provided, include naturally
-• 18-22 words max` : ''}
+• 12-15 words max` : ''}
 
-${duration >= 40 ? `Segment 5-${segmentCount} / 32-${duration}: [EXTENDED STORY — Deepen Connection]
+${duration >= 40 ? `Clip 5-${segmentCount} / 32-${duration}: [EXTENDED STORY]
 • Detailed service highlights with engaging language
-• Customer-centric: "మీ కోసం... మా కమిట్‌మెంట్"
-• Build to a POWERFUL, MEMORABLE closing
+• Build to a POWERFUL MEMORABLE closing
 • Final tagline should be ICONIC
-• 20-25 words per segment max` : ''}
+• 12-18 words per clip max` : ''}
 
 ${adType === 'festival' ? `
 FESTIVAL RULE (ABSOLUTE):
-• Segment 1 = 100% PURE festival wishes. ZERO business info.
-• Segment 2 onward = 100% PURE business promotion. ZERO festival words.
-• DO NOT mix festival content and business content in the same segment.` : ''}
+• Clip 1 = 100% PURE festival wishes. ZERO business info.
+• Clip 2 onward = 100% PURE business promotion. ZERO festival words.
+• DO NOT mix festival content and business content in the same clip.` : ''}
 
 ===== OUTPUT FORMAT (EXACT) =====
 
-0-8: [తెలుగు స్క్రిప్ట్ — segment 1]
-8-16: [తెలుగు స్క్రిప్ట్ — segment 2]
-${duration >= 24 ? '16-24: [తెలుగు స్క్రిప్ట్ — segment 3]' : ''}
-${duration >= 32 ? '24-32: [తెలుగు స్క్రిప్ట్ — segment 4]' : ''}
-${duration >= 40 ? '[continue for remaining segments...]' : ''}
+0-8: [తెలుగు స్క్రిప్ట్ — clip 1]
+8-16: [తెలుగు స్క్రిప్ట్ — clip 2]
+${duration >= 24 ? '16-24: [తెలుగు స్క్రిప్ట్ — clip 3]' : ''}
+${duration >= 32 ? '24-32: [తెలుగు స్క్రిప్ట్ — clip 4]' : ''}
+${duration >= 40 ? '[continue for remaining clips...]' : ''}
 
 FULL SCRIPT:
-[All segments combined — should read like a PREMIUM TV commercial in pure Telugu script]
+[All clips combined — should read like a PREMIUM TV commercial in pure Telugu script]
 
 ===== FINAL QUALITY CHECK =====
 Before outputting, verify:
 ✓ ZERO English alphabet anywhere — everything in Telugu script
-✓ Phone numbers spelled as Telugu word-digits (నైన్, ఎయిట్, ఫోర్...), NOT numeral symbols
-✓ Each segment is 20-25 words max (speakable in 8 seconds)
+✓ ZERO special characters (no hyphens, ampersands, slashes, brackets, etc.)
+✓ ALL numbers written as Telugu WORDS not digits
+✓ ${segmentCount === 2 ? 'Contact number replaced with "స్క్రీన్ పై వున్న నంబర్ ని ఇప్పుడే సంప్రదించండి"' : 'Phone numbers spelled as Telugu word-digits (నైన్, ఎయిట్, ఫోర్...)'}
+✓ Each clip is 12-18 words max (speakable in 6-7 seconds leaving visual time)
 ✓ Modern conversational Telugu — no archaic words
-✓ Brand name mentioned 3-4 times naturally
+✓ Brand name mentioned 2-3 times naturally
 ✓ At least one MEMORABLE punchline
-✓ Sounds like a ₹5-10 lakh TV commercial production
+✓ Script is CONCISE — video clips will be extended visually
 ✓ Address included ONLY if provided in business info
 
 NO explanations, NO notes, NO English commentary.
