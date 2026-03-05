@@ -147,7 +147,9 @@ const App: React.FC = () => {
   // Copy section content from header without opening
   const handleSectionCopy = (e: React.MouseEvent, sectionKey: string, content: string | string[]) => {
     e.stopPropagation(); // Prevent toggle
-    let text = Array.isArray(content) ? content.join('\n\n') : content;
+    let text = Array.isArray(content) 
+      ? content.map((c, i) => `${sectionKey === 'mainFrame' ? `Clip ${i + 1} – Main Frame Prompt` : `Segment ${i + 1}`}\n${c}`).join('\n\n---\n\n') 
+      : content;
     // Clean code blocks for mainFrame and header
     if (sectionKey === 'mainFrame' || sectionKey === 'header') {
       text = cleanCodeBlocks(text);
@@ -192,7 +194,7 @@ const App: React.FC = () => {
         businessName,
         businessType,
         businessInfo: outputs.businessInfo,
-        mainFramePrompt: outputs.mainFramePrompt,
+        mainFramePrompts: outputs.mainFramePrompts,
         headerPrompt: outputs.headerPrompt,
         posterPrompt: outputs.posterPrompt,
         voiceOverScript: outputs.voiceOverScript,
@@ -221,7 +223,7 @@ const App: React.FC = () => {
     setViewingSavedItem(item);
     setOutputs({
       businessInfo: item.businessInfo,
-      mainFramePrompt: item.mainFramePrompt,
+      mainFramePrompts: item.mainFramePrompts || ((item as any).mainFramePrompt ? [(item as any).mainFramePrompt] : []),
       headerPrompt: item.headerPrompt,
       posterPrompt: item.posterPrompt || '',
       voiceOverScript: item.voiceOverScript,
@@ -255,7 +257,7 @@ const App: React.FC = () => {
       let currentContent = '';
       switch (section) {
         case 'mainFrame':
-          currentContent = outputs.mainFramePrompt;
+          currentContent = outputs.mainFramePrompts.join('\n###CLIP###\n');
           break;
         case 'header':
           currentContent = outputs.headerPrompt;
@@ -284,8 +286,10 @@ const App: React.FC = () => {
         if (!prev) return prev;
         
         switch (section) {
-          case 'mainFrame':
-            return { ...prev, mainFramePrompt: refinedContent };
+          case 'mainFrame': {
+            const refinedClips = refinedContent.split('###CLIP###').map(p => p.trim()).filter(p => p.length > 0);
+            return { ...prev, mainFramePrompts: refinedClips.length > 0 ? refinedClips : [refinedContent] };
+          }
           case 'header':
             return { ...prev, headerPrompt: refinedContent };
           case 'poster':
@@ -1081,7 +1085,7 @@ const App: React.FC = () => {
                 </div>
                 
                 {/* Video Ad outputs — only in video mode */}
-                {creationMode === 'video' && outputs.mainFramePrompt && (
+                {creationMode === 'video' && outputs.mainFramePrompts && outputs.mainFramePrompts.length > 0 && (
                   <>
                     {/* Collapsible: Main Frame */}
                     <div className={clsx(
@@ -1097,18 +1101,18 @@ const App: React.FC = () => {
                         )}
                       >
                         <button onClick={() => toggleOutputSection('mainFrame')} className="flex-1 flex items-center text-left">
-                          <span className="font-semibold text-sm uppercase tracking-wide">1. Main Frame Prompt</span>
+                          <span className="font-semibold text-sm uppercase tracking-wide">1. Main Frame Prompts ({outputs.mainFramePrompts.length} Clips)</span>
                         </button>
                         <div className="flex items-center space-x-2">
                           <button
-                            onClick={(e) => handleSectionCopy(e, 'mainFrame', outputs.mainFramePrompt)}
+                            onClick={(e) => handleSectionCopy(e, 'mainFrame', outputs.mainFramePrompts)}
                             className={clsx(
                               "p-1.5 rounded transition-colors",
                               copiedSection === 'mainFrame'
                                 ? resolvedTheme === 'dark' ? "text-green-400" : "text-green-600"
                                 : resolvedTheme === 'dark' ? "text-slate-400 hover:text-blue-400" : "text-slate-500 hover:text-blue-600"
                             )}
-                            title={copiedSection === 'mainFrame' ? 'Copied!' : 'Copy'}
+                            title={copiedSection === 'mainFrame' ? 'Copied!' : 'Copy All Clips'}
                           >
                             {copiedSection === 'mainFrame' ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
                           </button>
@@ -1120,8 +1124,9 @@ const App: React.FC = () => {
                       {collapsedOutputs['mainFrame'] && (
                         <>
                           <GeneratedCard 
-                              title="1. Main Frame Prompt" 
-                              content={outputs.mainFramePrompt}
+                              title="1. Main Frame Prompts" 
+                              content={outputs.mainFramePrompts}
+                              variant="dropdown"
                               sectionType="mainFrame"
                               showRefinement={!viewingSavedItem}
                               onRefine={(instructions) => handleRefineSection('mainFrame', instructions)}

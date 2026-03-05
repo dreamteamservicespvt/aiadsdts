@@ -1,7 +1,8 @@
 import { GoogleGenAI } from "@google/genai";
 import { AdFormData, FileStore, GeneratedOutputs } from "../types";
 import { 
-  MAIN_FRAME_SYSTEM_PROMPT, 
+  MAIN_FRAME_SYSTEM_PROMPT,
+  MULTI_FRAME_SYSTEM_PROMPT,
   HEADER_SYSTEM_PROMPT, 
   POSTER_SYSTEM_PROMPT,
   VOICEOVER_SYSTEM_PROMPT, 
@@ -149,21 +150,24 @@ export const refineSection = async (
   switch (sectionType) {
     case 'mainFrame':
       systemPrompt = MAIN_FRAME_SYSTEM_PROMPT(formData.attireType, formData.adType, formData.festivalName);
-      userPrompt = `You previously generated this Main Frame prompt:
+      userPrompt = `You previously generated these Main Frame prompts (one per clip, separated by ###CLIP###):
 
----CURRENT PROMPT---
+---CURRENT PROMPTS---
 ${currentContent}
----END CURRENT PROMPT---
+---END CURRENT PROMPTS---
 
-The user wants the following changes/additions:
+The user wants the following changes/additions applied to ALL clips:
 "${additionalInstructions}"
 
 IMPORTANT: 
-- Apply ONLY the requested changes to the existing prompt
+- Apply ONLY the requested changes to ALL existing clip prompts
+- Maintain the ###CLIP### separator between each clip's prompt
+- Keep visual continuity between clips (same character, environment, lighting)
+- Clips after the first must still start with "Continuing from the previous frame…"
 - Keep all other aspects exactly the same
-- Output ONLY the refined prompt, no explanations
+- Output ONLY the refined prompts separated by ###CLIP###, no explanations
 - Do NOT wrap in markdown code blocks
-- Make sure the output is a clean, copy-paste ready prompt`;
+- Make sure each prompt is clean and copy-paste ready`;
       break;
 
     case 'header':
@@ -326,7 +330,7 @@ export const extractBusinessOnly = async (
 
   return {
     businessInfo,
-    mainFramePrompt: '',
+    mainFramePrompts: [],
     headerPrompt: '',
     posterPrompt: '',
     voiceOverScript: '',
@@ -494,13 +498,60 @@ export const generateAdAssets = async (
     businessInfo = { raw: businessInfoText };
   }
 
-  // --- Step 2: Main Frame Prompt ---
-  onProgress("Generating Main Frame prompt...", 30);
-  
+  // --- Step 2: Voice Over Script (MOVED EARLIER — needed for per-clip Main Frame prompts) ---
+  onProgress("Writing Voice Over script...", 20);
+
   const hasProductImages = files.productImages && files.productImages.length > 0;
   const productImageCount = hasProductImages ? files.productImages.length : 0;
+
+  const segmentCount = formData.duration / 8;
+  const scriptSystemPrompt = VOICEOVER_SYSTEM_PROMPT(formData.duration, segmentCount, formData.adType, formData.festivalName);
+  const scriptUserPrompt = `Generate a ${formData.duration}-second Telugu voice-over script for:
+  BUSINESS INFORMATION: ${JSON.stringify(businessInfo, null, 2)}
+  AD TYPE: ${formData.adType}
+  ${formData.adType === 'festival' ? `FESTIVAL: ${formData.festivalName}` : ''}
+  DURATION: ${formData.duration} seconds (${segmentCount} segments)`;
+
+  const scriptResponse = await callWithFallback(async (ai) => {
+    return await ai.models.generateContent({
+      model: MODEL_NAME,
+      contents: [
+          { role: 'user', parts: [{ text: scriptUserPrompt }] }
+      ],
+      config: {
+          systemInstruction: scriptSystemPrompt,
+      }
+    });
+  });
+
+  const voiceOverScript = scriptResponse.text || "Failed to generate Script.";
+
+  // Parse voice-over segments for use in multi-frame and Veo generation
+  const segments: string[] = [];
+  const lines = voiceOverScript.split('\n');
+  let currentSegmentText = "";
+  for (const line of lines) {
+    if (line.trim().toLowerCase().startsWith("segment")) {
+      if (currentSegmentText) segments.push(currentSegmentText.trim());
+      currentSegmentText = line.split(':')[1] || "";
+    } else {
+      currentSegmentText += " " + line;
+    }
+  }
+  if (currentSegmentText) segments.push(currentSegmentText.trim());
+  // Fallback if parsing fails
+  const parsedSegments = segments.length > 0 ? segments : Array(segmentCount).fill("Script content placeholder");
+
+  // --- Step 3: Multi-Frame Main Frame Prompts (Per-Clip) ---
+  onProgress("Generating per-clip Main Frame prompts...", 35);
   
-  const mainFrameSystemPrompt = MAIN_FRAME_SYSTEM_PROMPT(formData.attireType, formData.adType, formData.festivalName);
+  const multiFrameSystemPrompt = MULTI_FRAME_SYSTEM_PROMPT(
+    formData.attireType, 
+    formData.adType, 
+    formData.festivalName,
+    segmentCount,
+    parsedSegments
+  );
   
   // Build product image instruction for the prompt
   const productImageMainFrameNote = hasProductImages 
@@ -517,14 +568,19 @@ CRITICAL PRODUCT IMAGE INSTRUCTIONS FOR MAIN FRAME:
 - The scene should look like a REAL photo taken at the ACTUAL business with their products on display`
     : '';
   
-  const mainFrameUserPrompt = `Generate a Main Frame image prompt for:
+  const mainFrameUserPrompt = `Generate ${segmentCount} unique Main Frame image prompts (one per 8-second clip) for:
   BUSINESS INFORMATION: ${JSON.stringify(businessInfo, null, 2)}
   AD TYPE: ${formData.adType}
   ${formData.adType === 'festival' ? `FESTIVAL: ${formData.festivalName}` : ''}
   ATTIRE: ${formData.attireType}
+  TOTAL DURATION: ${formData.duration} seconds (${segmentCount} clips of 8 seconds each)
   SPECIAL CLIENT INSTRUCTIONS: ${businessInfo.specialRequirements?.customInstructions || 'None'}
   ${hasProductImages ? `\nPRODUCT IMAGES: ${productImageCount} product image(s) are being attached. You MUST include product placement instructions in the prompt. Products should appear IN THE STORE BACKGROUND (on shelves, display racks, tables) — NOT at the bottom of the frame. Products must remain EXACTLY as provided — no modifications.` : ''}
-  Generate the complete image generation prompt now.${productImageMainFrameNote}`;
+  
+  VOICE-OVER SCRIPT SEGMENTS (use these to guide each frame's mood and action):
+  ${parsedSegments.map((s, i) => `Clip ${i+1}: ${s}`).join('\n  ')}
+  
+  Generate ${segmentCount} complete, unique Main Frame image prompts now. Separate each with ###CLIP###.${productImageMainFrameNote}`;
 
   // Build main frame parts including product images
   const mainFrameParts: any[] = [{ text: mainFrameUserPrompt }];
@@ -540,14 +596,37 @@ CRITICAL PRODUCT IMAGE INSTRUCTIONS FOR MAIN FRAME:
     }
   }
 
-  const mainFramePrompt = await generateWithRetry(
+  const mainFrameRawResponse = await generateWithRetry(
     mainFrameParts,
-    mainFrameSystemPrompt,
-    'Main Frame'
+    multiFrameSystemPrompt,
+    'Main Frame (Multi-Clip)'
   );
 
-  // --- Step 3: Header Prompt ---
-  onProgress("Generating Header prompt...", 50);
+  // Parse multi-frame response into individual clip prompts
+  const rawClipPrompts = mainFrameRawResponse.split("###CLIP###")
+    .map(p => p.trim())
+    .filter(p => p.length > 0);
+
+  // Ensure we have the right number of prompts; fallback to duplicating if parsing fails
+  let mainFramePrompts: string[];
+  if (rawClipPrompts.length >= segmentCount) {
+    mainFramePrompts = rawClipPrompts.slice(0, segmentCount);
+  } else if (rawClipPrompts.length > 0) {
+    // Pad with last prompt if we got fewer than expected
+    mainFramePrompts = [...rawClipPrompts];
+    while (mainFramePrompts.length < segmentCount) {
+      mainFramePrompts.push(rawClipPrompts[rawClipPrompts.length - 1]);
+    }
+  } else {
+    // Complete fallback — use the entire response as a single prompt
+    mainFramePrompts = [mainFrameRawResponse];
+    while (mainFramePrompts.length < segmentCount) {
+      mainFramePrompts.push(mainFrameRawResponse);
+    }
+  }
+
+  // --- Step 4: Header Prompt ---
+  onProgress("Generating Header prompt...", 55);
 
   const headerSystemPrompt = HEADER_SYSTEM_PROMPT(formData.adType, formData.festivalName);
   
@@ -629,8 +708,8 @@ Keep it MINIMAL — the header is a thin contact strip (5-8% height), NOT a visi
     'Header'
   );
 
-  // --- Step 4: Poster Design Prompt (JSON) ---
-  onProgress("Designing Poster prompt...", 55);
+  // --- Step 5: Poster Design Prompt (JSON) ---
+  onProgress("Designing Poster prompt...", 65);
 
   const posterSystemPrompt = POSTER_SYSTEM_PROMPT(formData.adType, formData.festivalName);
   const posterUserPrompt = `Generate an atomic-level detailed poster design prompt in JSON format for:
@@ -661,49 +740,8 @@ Keep it MINIMAL — the header is a thin contact strip (5-8% height), NOT a visi
     posterPrompt = posterPromptRaw;
   }
 
-  // --- Step 5: Voice Over Script ---
-  onProgress("Writing Voice Over script...", 65);
-
-  const segmentCount = formData.duration / 8;
-  const scriptSystemPrompt = VOICEOVER_SYSTEM_PROMPT(formData.duration, segmentCount, formData.adType, formData.festivalName);
-  const scriptUserPrompt = `Generate a ${formData.duration}-second Telugu voice-over script for:
-  BUSINESS INFORMATION: ${JSON.stringify(businessInfo, null, 2)}
-  AD TYPE: ${formData.adType}
-  ${formData.adType === 'festival' ? `FESTIVAL: ${formData.festivalName}` : ''}
-  DURATION: ${formData.duration} seconds (${segmentCount} segments)`;
-
-  const scriptResponse = await callWithFallback(async (ai) => {
-    return await ai.models.generateContent({
-      model: MODEL_NAME,
-      contents: [
-          { role: 'user', parts: [{ text: scriptUserPrompt }] }
-      ],
-      config: {
-          systemInstruction: scriptSystemPrompt,
-      }
-    });
-  });
-
-  const voiceOverScript = scriptResponse.text || "Failed to generate Script.";
-
   // --- Step 6: Veo 3 Segment Prompts ---
   onProgress("Creating Veo 3 video segment prompts...", 85);
-
-  // Helper to parse segments from the script output (simple heuristic)
-  const segments: string[] = [];
-  const lines = voiceOverScript.split('\n');
-  let currentSegmentText = "";
-  for (const line of lines) {
-    if (line.trim().toLowerCase().startsWith("segment")) {
-      if (currentSegmentText) segments.push(currentSegmentText.trim());
-      currentSegmentText = line.split(':')[1] || "";
-    } else {
-      currentSegmentText += " " + line;
-    }
-  }
-  if (currentSegmentText) segments.push(currentSegmentText.trim());
-  // Fallback if parsing fails
-  const parsedSegments = segments.length > 0 ? segments : Array(segmentCount).fill("Script content placeholder");
 
   const veoSystemPrompt = VEO_SEGMENT_SYSTEM_PROMPT(segmentCount);
   const veoUserPrompt = `Generate Veo 3 prompts for all segments.
@@ -736,7 +774,7 @@ Keep it MINIMAL — the header is a thin contact strip (5-8% height), NOT a visi
 
   return {
     businessInfo,
-    mainFramePrompt,
+    mainFramePrompts,
     headerPrompt,
     posterPrompt,
     voiceOverScript,

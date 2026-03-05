@@ -53,7 +53,7 @@ export interface SavedGeneration {
   businessName: string;
   businessType: string;
   businessInfo: any;
-  mainFramePrompt: string;
+  mainFramePrompts: string[];
   headerPrompt: string;
   posterPrompt?: string;
   voiceOverScript: string;

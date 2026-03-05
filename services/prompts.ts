@@ -878,6 +878,127 @@ ${isFestival ? `3. For ATTIRE section: The saree must BLEND the ${festivalName} 
 OUTPUT: Generate ONLY the final prompt following the exact format above. Fill in all bracketed placeholders with extracted business information. No explanations, no labels.`;
 };
 
+// ===== MULTI-FRAME SYSTEM PROMPT (Per-Clip Unique Main Frame Prompts) =====
+export const MULTI_FRAME_SYSTEM_PROMPT = (
+  attireType: string,
+  adType: string,
+  festivalName: string,
+  segmentCount: number,
+  voiceOverSegments: string[]
+) => {
+  const basePrompt = MAIN_FRAME_SYSTEM_PROMPT(attireType, adType, festivalName);
+
+  // Build segment context for the AI
+  const segmentContext = voiceOverSegments.map((seg, i) => 
+    `  Clip ${i + 1} Script: ${seg}`
+  ).join('\n');
+
+  const cameraVariations = [
+    'Standard mid-shot, straight-on at chest level, subject perfectly centered — establishing shot',
+    'Slight low-angle mid-shot (camera slightly below chest), subject centered — conveys authority and power',
+    'Subtle over-the-shoulder perspective or gentle 10-15° side angle — adds depth and cinematic feel',
+    'Slightly wider mid-shot showing more environment context, subject still dominant at 65% frame — contextual shot',
+    'Gentle high-angle mid-shot (camera slightly above eye level looking down), warm and inviting feel',
+    'Close mid-shot (tighter crop, head to upper waist), more intimate and personal feel — emphasizes facial expression',
+  ];
+
+  return `${basePrompt}
+
+===== MULTI-FRAME GENERATION MODE (CRITICAL — READ CAREFULLY) =====
+
+**OVERRIDE: Instead of generating ONE prompt, you must generate EXACTLY ${segmentCount} SEPARATE Main Frame image prompts — one for each 8-second video clip.**
+
+TOTAL CLIPS: ${segmentCount}
+EACH CLIP DURATION: 8 seconds
+
+VOICE-OVER SCRIPT PER CLIP:
+${segmentContext}
+
+===== FRAME GENERATION RULES =====
+
+1. **CLIP 1 — ESTABLISHING FRAME (Full standalone prompt)**
+   Generate a complete, detailed image generation prompt following ALL the rules above.
+   Camera: ${cameraVariations[0]}
+   This frame sets the visual foundation — character, environment, lighting, attire, everything.
+
+${voiceOverSegments.slice(1).map((_, i) => {
+  const clipNum = i + 2;
+  const cameraIdx = clipNum - 1 < cameraVariations.length ? clipNum - 1 : (clipNum - 1) % cameraVariations.length;
+  return `${clipNum}. **CLIP ${clipNum} — CONTINUATION FRAME**
+   Start with: "Continuing from the previous frame…"
+   Camera: ${cameraVariations[cameraIdx]}
+   Change ONLY: camera angle, composition, or subtle action/expression to match Clip ${clipNum}'s script content.
+   Keep SAME: character appearance, attire, environment, lighting style, color grading, logo placement.`;
+}).join('\n\n')}
+
+===== VISUAL VARIATION RULES (MAKE EACH CLIP UNIQUE) =====
+
+Each frame MUST be visually different from the previous one. Vary these elements:
+• **Camera angle** — subtle shifts (straight, slightly low, slightly high, gentle side angle)
+• **Subject expression** — match the script mood (welcoming smile, confident gaze, warm gesture, proud expression)
+• **Hand position** — subtle natural variations (gently folded, one hand on counter, slight gesture mid-sentence)
+• **Depth of field focus** — sometimes subject sharp + background soft, sometimes pull focus slightly to show environment details
+• **Background activity** — subtle environmental changes (different lighting angle, slightly different decor emphasis)
+
+DO NOT VARY:
+• Character identity (same person, same face, same beauty level)
+• Attire & jewellery (exact same outfit throughout)
+• Overall environment (same location/office)
+• Color grading & lighting style (consistent mood)
+• Logo placement (same position)
+
+===== REALISM REQUIREMENT (ABSOLUTE — NON-NEGOTIABLE) =====
+
+Every generated frame MUST look like:
+• Real DSLR camera photography (Canon 5D Mark IV / Sony A7III quality)
+• Natural cinematic lighting — window light, ambient indoor, practical lights
+• Real-world environments with natural imperfections
+• Real human skin textures — visible pores, natural warmth, micro-highlights
+• Proper depth of field with beautiful bokeh
+• Professional cinematography composition (rule of thirds, leading lines)
+
+STRICTLY AVOID anything that looks like:
+• AI-generated illustrations or digital art
+• 3D renders or CGI
+• Cartoon style or stylized art
+• Unrealistic/flat lighting
+• Over-processed or HDR-heavy look
+• Stock photo feel
+
+The result must be INDISTINGUISHABLE from a real photograph captured during a professional film shoot.
+
+===== CTA (CALL-TO-ACTION) RULE =====
+Do NOT automatically include any CTA text in the frame prompts (e.g., "ఇప్పుడు సంప్రదించండి" or similar).
+CTA text will be handled separately by the video editing team.
+Frame prompts should focus ONLY on the visual scene — no overlaid text except real-world logo signage.
+
+===== OUTPUT FORMAT (CRITICAL — MUST FOLLOW EXACTLY) =====
+
+Separate each clip's prompt with the marker: ###CLIP###
+
+Output format:
+Clip 1 – Main Frame Prompt
+[Full detailed prompt for clip 1]
+
+###CLIP###
+
+Clip 2 – Main Frame Prompt
+Continuing from the previous frame…
+[Prompt for clip 2 with camera/composition changes]
+
+###CLIP###
+
+Clip 3 – Main Frame Prompt
+Continuing from the previous frame…
+[Prompt for clip 3 with camera/composition changes]
+
+(Continue for all ${segmentCount} clips)
+
+**Generate EXACTLY ${segmentCount} prompts separated by ###CLIP###. No more, no less.**
+Each prompt must be complete, copy-paste ready, and follow the exact format structure defined above.
+Do NOT wrap individual prompts in code blocks — output them as plain text separated by ###CLIP###.`;
+};
+
 export const HEADER_SYSTEM_PROMPT = (adType: string, festivalName: string) => {
   const isFestival = adType === AdType.FESTIVAL && festivalName;
   const festivalTheme = isFestival ? getFestivalTheme(festivalName) : null;

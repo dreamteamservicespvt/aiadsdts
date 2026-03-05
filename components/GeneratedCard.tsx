@@ -157,7 +157,7 @@ export const GeneratedCard: React.FC<GeneratedCardProps> = ({
                 )}
               >
                 {items.map((_, idx) => (
-                  <option key={idx} value={idx}>Segment {idx + 1}</option>
+                  <option key={idx} value={idx}>{sectionType === 'mainFrame' ? `Clip ${idx + 1}` : `Segment ${idx + 1}`}</option>
                 ))}
               </select>
               <ChevronDown className={clsx(
@@ -266,7 +266,7 @@ export const GeneratedCard: React.FC<GeneratedCardProps> = ({
                   )}
                 >
                   {items.map((_, idx) => (
-                    <option key={idx} value={idx}>Segment {idx + 1}</option>
+                    <option key={idx} value={idx}>{sectionType === 'mainFrame' ? `Clip ${idx + 1}` : `Segment ${idx + 1}`}</option>
                   ))}
                 </select>
                 <ChevronDown className={clsx(

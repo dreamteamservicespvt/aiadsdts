@@ -36,7 +36,7 @@ export interface FileStore {
 
 export interface GeneratedOutputs {
   businessInfo: any;
-  mainFramePrompt: string;
+  mainFramePrompts: string[];
   headerPrompt: string;
   posterPrompt: string;
   voiceOverScript: string;
