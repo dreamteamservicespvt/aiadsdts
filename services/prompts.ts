@@ -1079,18 +1079,18 @@ YOUR TASK: Generate a ${duration}-second voice-over script for a business advert
 
 • Total Duration: ${duration} seconds
 • Total Clips: ${segmentCount} clips of 8 seconds each
-• MAXIMUM 12-18 Telugu words per 8-second clip — KEEP IT VERY SHORT
+• EXACTLY 18 Telugu words per 8-second clip — NO MORE, NO LESS
 • The video clips will be extended visually, so script must be CONCISE
 • Average Telugu speaking pace: 2-2.5 words per second
 • READ EACH SEGMENT ALOUD mentally — if it takes more than 6-7 seconds, CUT words
 • Keep sentences EXTREMELY SHORT, PUNCHY, and IMPACTFUL
 • Every word must EARN its place — no filler, no fluff, no repetition
 
-   Word count guide (STRICT):
-   - Festival wishes clip: 12-15 words max
-   - Business intro clip: 15-18 words max  
-   - Features/benefits clip: 12-18 words max
-   - Call-to-action clip: 12-15 words max
+   Word count guide (STRICT — 18 words per clip):
+   - Festival wishes clip: 18 words
+   - Business intro clip: 18 words
+   - Features/benefits clip: 18 words
+   - Call-to-action clip: 18 words
 
 ===== CONTENT & TONE (WORLD-CLASS QUALITY) =====
 
