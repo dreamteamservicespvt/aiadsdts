@@ -899,72 +899,169 @@ export const MULTI_FRAME_SYSTEM_PROMPT = (
     `  Clip ${i + 1} Script: ${seg}`
   ).join('\n');
 
-  const cameraVariations = [
-    'Standard mid-shot, straight-on at chest level, subject perfectly centered — establishing shot',
-    'Slight low-angle mid-shot (camera slightly below chest), subject centered — conveys authority and power',
-    'Subtle over-the-shoulder perspective or gentle 10-15° side angle — adds depth and cinematic feel',
-    'Slightly wider mid-shot showing more environment context, subject still dominant at 65% frame — contextual shot',
-    'Gentle high-angle mid-shot (camera slightly above eye level looking down), warm and inviting feel',
-    'Close mid-shot (tighter crop, head to upper waist), more intimate and personal feel — emphasizes facial expression',
+  // Director's shot types — each clip has a cinematic PURPOSE and a DIFFERENT LOCATION within the same establishment
+  const shotDesigns = [
+    {
+      name: 'HERO ESTABLISHING SHOT',
+      location: 'Main reception area / front counter / primary welcome zone of the business',
+      camera: 'Standard mid-shot, straight-on at chest level, subject perfectly centered — classic brand ambassador establishing shot',
+      pose: 'Hands gently folded at waist, one hand resting over the other, confident welcoming posture — brand ambassador stance',
+      purpose: 'Introduce the brand ambassador and the business atmosphere. The viewer sees the model AND instantly recognizes the business type from the environment.',
+    },
+    {
+      name: 'SHOWCASE / PRODUCT SHOT',
+      location: 'Product display area / service showcase zone / core business section — where the actual products, services, or offerings are visible',
+      camera: 'Slight low-angle mid-shot (camera slightly below chest), subject on one side using rule-of-thirds — products/services visible on the other side',
+      pose: 'One hand gesturing gently toward the products/services behind her, or resting on a display counter — naturally interacting with the business environment',
+      purpose: 'Show what the business DOES. The model guides the viewer\'s attention to products, equipment, or services displayed behind/around her.',
+    },
+    {
+      name: 'CREDIBILITY / TRUST SHOT',
+      location: 'Near the business logo wall / achievement display / certification area / consultation zone — the trust-building section of the establishment',
+      camera: 'Gentle 10-15° side angle mid-shot, creating depth with the logo/achievements visible in the background — cinematic depth composition',
+      pose: 'Confident stance with slight body turn toward the logo/achievements, warm authoritative expression — exuding trust and credibility',
+      purpose: 'Build trust and brand authority. The logo is prominently visible, along with any awards, certifications, or trust signals.',
+    },
+    {
+      name: 'DETAIL / IMMERSION SHOT',
+      location: 'A different section of the business — specialized area, secondary display zone, workstation area, or another distinct part of the premises that hasn\'t been shown yet',
+      camera: 'Slightly wider mid-shot showing more of this new area, or a close mid-shot (head to upper waist) for intimate feel — environment-rich composition',
+      pose: 'Natural relaxed pose — perhaps lightly touching a surface, standing near equipment relevant to the business, or a natural mid-conversation gesture',
+      purpose: 'Reveal more depth of the business — show the viewer that this is a REAL, multi-area establishment. Add visual variety.',
+    },
+    {
+      name: 'WARM CLOSING SHOT',
+      location: 'Back near the main area / entrance zone / a warm, inviting spot in the establishment — full circle back to a welcoming position',
+      camera: 'Standard to slight high-angle mid-shot, soft and warm composition — the "come visit us" feel',
+      pose: 'Open welcoming gesture — warm smile, slightly open hands or namaste gesture, inviting the viewer — the final impression',
+      purpose: 'End on a warm, inviting note. The viewer should feel: "I want to visit this place." This is the closing brand impression.',
+    },
+    {
+      name: 'ALTERNATIVE ANGLE SHOT',
+      location: 'The most visually interesting or unique section of the business — a spot that best represents the brand\'s personality and uniqueness',
+      camera: 'Creative composition — slight dutch angle or artistic framing using environment elements as natural frames (doorways, arches, shelving)',
+      pose: 'Dynamic pose that matches the script energy — could be mid-stride, turning to face camera, or engaged with something in the environment',
+      purpose: 'Show the business from a fresh, unexpected angle that adds cinematic variety.',
+    },
   ];
 
   return `${basePrompt}
 
-===== MULTI-FRAME GENERATION MODE (CRITICAL — READ CAREFULLY) =====
+===== MULTI-FRAME GENERATION MODE — DIRECTOR'S SHOT PLAN (CRITICAL) =====
+
+**You are now a WORLD-CLASS commercial film director and cinematographer planning a premium brand campaign.**
 
 **OVERRIDE: Instead of generating ONE prompt, you must generate EXACTLY ${segmentCount} SEPARATE Main Frame image prompts — one for each 8-second video clip.**
+
+Think of this as a ₹20-lakh national TV commercial shoot where the brand ambassador MOVES THROUGH different areas of the business establishment. Each clip = a DIFFERENT LOCATION within the SAME office/store/premises.
 
 TOTAL CLIPS: ${segmentCount}
 EACH CLIP DURATION: 8 seconds
 
-VOICE-OVER SCRIPT PER CLIP:
+VOICE-OVER SCRIPT PER CLIP (use to guide mood, action, and location choice):
 ${segmentContext}
 
-===== FRAME GENERATION RULES =====
+===== THE DIRECTOR'S SHOT PLAN =====
 
-1. **CLIP 1 — ESTABLISHING FRAME (Full standalone prompt)**
-   Generate a complete, detailed image generation prompt following ALL the rules above.
-   Camera: ${cameraVariations[0]}
-   This frame sets the visual foundation — character, environment, lighting, attire, everything.
-   This is the ONLY clip where you fully describe the model's face, hair, skin, beauty, attire, and jewellery.
+**GOLDEN RULE: The model must appear at a DIFFERENT physical location within the same business environment in EVERY clip.**
 
-${voiceOverSegments.slice(1).map((_, i) => {
-  const clipNum = i + 2;
-  const cameraIdx = clipNum - 1 < cameraVariations.length ? clipNum - 1 : (clipNum - 1) % cameraVariations.length;
-  return `${clipNum}. **CLIP ${clipNum} — CONTINUATION FRAME (⚠️ DO NOT RE-DESCRIBE THE MODEL)**
-   Start with: "Continuing from the previous frame — exact same model, exact same attire, exact same environment…"
-   Camera: ${cameraVariations[cameraIdx]}
+Just like in real TV commercials — the actress doesn't stand in one spot for 30 seconds. She MOVES through the business:
+• From the reception → to the product display → to the logo wall → to the consultation area → back to the entrance
+• Each location reveals a DIFFERENT aspect of the business
+• The viewer sees the FULL business through the model's journey
+
+**LOCATION PLANNING PER BUSINESS TYPE:**
+The AI must pick ${segmentCount} DIFFERENT spots from within the specific [BUSINESS TYPE] establishment:
+
+• **Medical/Healthcare:** Reception counter → Consultation room doorway → Medicine/equipment display area → Patient waiting zone → Near health certifications wall
+• **Real Estate:** Reception desk → Property display board wall → Building model showcase → Floor plan gallery → Client meeting zone
+• **Fashion/Boutique:** Store entrance → Clothing display racks → Mirror/trial area → Accessory showcase → Designer collection wall
+• **Food/Restaurant/Catering:** Host station → Dining area → Kitchen pass/display counter → Beverage station → Ambiance seating zone
+• **Tech/Software:** Reception/lobby → Workspace area → Meeting room doorway → Creative wall/whiteboard area → Tech equipment zone
+• **Education:** Front desk → Achievement/trophy wall → Counseling desk area → Study material display → Global map/university display wall
+• **Solar/Energy:** Reception → Solar panel display → System demo area → Certificate/partnership wall → Energy model showcase
+• **Laundry/Wash:** Counter/reception → Washing machine area → Folded linen display → Pressing/finishing zone → Rack/collection area
+• **Tea/Beverage:** Counter → Tea packet shelf display → Tasting area → Storage/distribution zone → Brand display wall
+• **Jewellery:** Entrance/display case → Gold collection showcase → Diamond/premium section → Trial mirror area → Heritage/trust wall
+• **Electrical/Hardware:** Service counter → Equipment display → Tool showcase area → Workstation/demo zone → Certification wall
+• **Default:** Reception → Product/service showcase → Logo/brand wall → Work area → Entrance/closing zone
+
+===== FRAME-BY-FRAME GENERATION RULES =====
+
+${Array.from({ length: segmentCount }, (_, i) => {
+  const clipNum = i + 1;
+  const shotIdx = i < shotDesigns.length ? i : i % shotDesigns.length;
+  const shot = shotDesigns[shotIdx];
+  
+  if (clipNum === 1) {
+    return `**CLIP ${clipNum} — ${shot.name} (Full standalone prompt)**
+   📍 LOCATION: ${shot.location}
+   🎥 CAMERA: ${shot.camera}
+   🧍 POSE: ${shot.pose}
+   🎯 PURPOSE: ${shot.purpose}
    
-   **CRITICAL MODEL CONSISTENCY RULE:**
-   DO NOT re-describe the model's face, hair, skin tone, beauty features, facial characteristics, makeup, skin texture, or any physical attributes.
-   DO NOT re-describe the attire fabric, color, saree details, or jewellery.
-   Instead, write ONLY: "The exact same woman from the previous frame, unchanged in every way."
-   Then describe ONLY what CHANGES in this frame:
-   • New POSE (hand position, body angle, weight shift)
-   • New EXPRESSION (smile type, gaze direction, emotional tone matching the script)
-   • New CAMERA ANGLE (as specified above)
-   • Any subtle ENVIRONMENT interaction (e.g., hand near product display, glancing at logo)
+   Generate a COMPLETE, detailed image generation prompt following ALL the rules above.
+   This frame sets the visual foundation — character face, hair, skin, beauty, attire, jewellery, AND this specific location within the business.
+   This is the ONLY clip where you fully describe the model's physical appearance.`;
+  }
+  
+  return `**CLIP ${clipNum} — ${shot.name} (⚠️ DO NOT RE-DESCRIBE THE MODEL)**
+   📍 LOCATION: ${shot.location}
+   🎥 CAMERA: ${shot.camera}
+   🧍 POSE: ${shot.pose}
+   🎯 PURPOSE: ${shot.purpose}
    
-   WHY: Re-describing the model causes the AI image generator to create a DIFFERENT woman. The model must be identical across all clips — only her pose and expression should change.`;
+   **⛔ FORBIDDEN — DO NOT WRITE ANY OF THESE FOR CLIP ${clipNum}:**
+   You must NOT mention, describe, or reference ANY of the following words/concepts for the model:
+   ❌ face, facial features, complexion, skin tone, skin color, skin texture, forehead, cheekbones, jawline
+   ❌ eyes, eye color, eye shape, eyelashes, eyebrows, gaze direction (as physical description)
+   ❌ nose, lips, lip color, smile description, teeth
+   ❌ hair, hair color, hair length, hair style, hair texture, hairstyle, curls, straight hair, braid, bun
+   ❌ height, body shape, body type, figure, slim, slender, petite, tall
+   ❌ makeup, foundation, lipstick, eyeliner, kajal, blush, eye shadow
+   ❌ attire, saree, suit, fabric, silk, zari, border, pallu, blouse, dupatta, kurta, dress
+   ❌ jewellery, necklace, earrings, bangles, ring, maang tikka, nose ring, chain, pendant, gold, diamond
+   ❌ beauty, beautiful, gorgeous, stunning, attractive, elegant (about the model)
+   ❌ South Indian, actress, celebrity, model appearance, film star, glamorous
+   
+   **✅ INSTEAD — Write ONLY this one line about the model:**
+   "The exact same woman from Clip 1 — identical in every way, same face, same attire, same jewellery, completely unchanged."
+   
+   **✅ THEN FOCUS 100% ON THESE (the ONLY things you should describe):**
+   • 📍 The NEW LOCATION within the business (a completely different spot from previous clips — describe the area in rich detail)
+   • 🔍 What's visible in the background at this new location (business-specific elements, furniture, displays, signage)
+   • 🧍 The new POSE — body angle, hand position, interaction with environment elements at this location
+   • 😊 The new EXPRESSION — emotional tone matching Clip ${clipNum}'s voice-over script
+   • 🎥 The new CAMERA ANGLE and composition
+   • 💡 How lighting naturally differs at this new spot (e.g., near window = warm, interior = ambient)
+   
+   WHY THIS MATTERS: Any model description — even saying "beautiful woman" or "silk saree" — will cause the AI image generator to create a COMPLETELY DIFFERENT person. The model's identity is LOCKED from Clip 1. You ONLY control the scene around her.`;
 }).join('\n\n')}
 
-===== VISUAL VARIATION RULES (MAKE EACH CLIP UNIQUE) =====
+===== VISUAL VARIATION RULES — THE DIRECTOR'S CHECKLIST =====
 
-Each frame MUST be visually different from the previous one. ONLY vary these elements:
-• **Camera angle** — subtle shifts (straight, slightly low, slightly high, gentle side angle)
-• **Subject POSE** — body angle, hand position, weight shift, leaning direction
-• **Subject EXPRESSION** — match the script mood (welcoming smile, confident gaze, warm gesture, proud expression, slight head tilt)
-• **Depth of field focus** — sometimes subject sharp + background soft, sometimes pull focus slightly to show environment details
-• **Background emphasis** — subtle focus shift to different parts of the environment
+**WHAT MUST CHANGE between every clip (MANDATORY):**
+• **📍 MODEL'S PHYSICAL LOCATION** — she must be at a DIFFERENT spot within the same business (THIS IS THE MOST IMPORTANT CHANGE)
+• **🎥 Camera angle & composition** — match the shot type (establishing, showcase, trust, detail, closing)
+• **🧍 Subject POSE** — body angle, hand position, body interaction with the new location's elements
+• **😊 Subject EXPRESSION** — match the script mood (welcoming → proud → trustworthy → warm → inviting)
+• **🔍 Background content** — different business elements visible at each new location
+• **💡 Lighting nuance** — natural variation as model moves (near window = warmer, deeper inside = ambient, near displays = spotlit)
 
-⚠️ ABSOLUTE DO NOT VARY (MODEL CONSISTENCY IS SACRED):
-• **Model's face, features, beauty, skin tone, hair** — she must be the EXACT SAME PERSON in every clip
+**⚠️ WHAT MUST NEVER CHANGE (MODEL CONSISTENCY IS SACRED):**
+• **Model's identity** — exact same person, same face, same beauty level in every clip
 • **Attire & jewellery** — exact same outfit, exact same jewellery, exact same fabric
-• **Overall environment** — same location/office, same decorations
-• **Color grading & lighting style** — consistent mood throughout
-• **Logo placement** — same position
+• **Overall establishment** — same business, same décor style, same color palette
+• **Color grading & mood** — consistent cinematic feel throughout
+• **Image quality** — same DSLR realism level
 
-⚠️ FOR CLIPS 2+: DO NOT write any model description (face, hair, skin, beauty, attire, jewellery). The AI generating the image already has the previous frame's model — re-describing her will make the AI generate a DIFFERENT woman. ONLY describe: pose, expression, camera angle, and any subtle action.
+**⛔⛔⛔ ABSOLUTE ZERO-TOLERANCE RULE FOR CLIPS 2+ ⛔⛔⛔**
+For ANY clip after Clip 1, you must write ZERO words about the model's appearance.
+The ONLY reference to the model should be: "The exact same woman from Clip 1 — identical in every way, same face, same attire, same jewellery, completely unchanged."
+
+NEVER write about: face, hair, skin, beauty, makeup, attire, fabric, saree, silk, jewellery, necklace, earrings, bangles, eyes, lips, complexion, height, figure, or ANY physical/clothing description.
+Even writing "beautiful woman in silk saree" will make the AI generate a DIFFERENT person.
+The model is LOCKED from Clip 1 — you can ONLY control the SCENE around her (location, background, pose, expression, camera angle).
 
 ===== REALISM REQUIREMENT (ABSOLUTE — NON-NEGOTIABLE) =====
 
@@ -996,24 +1093,25 @@ Frame prompts should focus ONLY on the visual scene — no overlaid text except 
 Separate each clip's prompt with the marker: ###CLIP###
 
 Output format:
-Clip 1 – Main Frame Prompt
-[Full detailed prompt for clip 1]
+Clip 1 – Main Frame Prompt (${shotDesigns[0].name})
+[Full detailed prompt — model at LOCATION 1 of the business]
 
 ###CLIP###
 
-Clip 2 – Main Frame Prompt
-Continuing from the previous frame — exact same model, exact same attire, exact same environment…
-[ONLY pose, expression, camera angle changes — NO model/attire re-description]
+Clip 2 – Main Frame Prompt (${shotDesigns[1 % shotDesigns.length].name})
+Continuing from the previous frame — exact same model, exact same attire…
+[Model has MOVED to LOCATION 2 — describe new location, pose, camera — NO model re-description]
 
-###CLIP###
+${segmentCount > 2 ? `###CLIP###
 
-Clip 3 – Main Frame Prompt
-Continuing from the previous frame — exact same model, exact same attire, exact same environment…
-[ONLY pose, expression, camera angle changes — NO model/attire re-description]
+Clip 3 – Main Frame Prompt (${shotDesigns[2 % shotDesigns.length].name})
+Continuing from the previous frame — exact same model, exact same attire…
+[Model has MOVED to LOCATION 3 — describe new location, pose, camera — NO model re-description]` : ''}
 
-(Continue for all ${segmentCount} clips)
+(Continue for all ${segmentCount} clips — each at a DIFFERENT location within the business)
 
 **Generate EXACTLY ${segmentCount} prompts separated by ###CLIP###. No more, no less.**
+**Each clip's model MUST be at a PHYSICALLY DIFFERENT location within the same business establishment.**
 Each prompt must be complete, copy-paste ready, and follow the exact format structure defined above.
 Do NOT wrap individual prompts in code blocks — output them as plain text separated by ###CLIP###.`;
 };

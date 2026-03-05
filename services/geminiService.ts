@@ -580,7 +580,9 @@ CRITICAL PRODUCT IMAGE INSTRUCTIONS FOR MAIN FRAME:
   VOICE-OVER SCRIPT SEGMENTS (use these to guide each frame's mood and action):
   ${parsedSegments.map((s, i) => `Clip ${i+1}: ${s}`).join('\n  ')}
   
-  Generate ${segmentCount} complete, unique Main Frame image prompts now. Separate each with ###CLIP###.${productImageMainFrameNote}`;
+  Generate ${segmentCount} complete, unique Main Frame image prompts now. Separate each with ###CLIP### on its own line.
+  You MUST output EXACTLY ${segmentCount} prompts. Each prompt must be separated by ###CLIP### (on its own line, nothing else on that line).
+  Do NOT combine multiple clips into one block. Each clip gets its own complete prompt.${productImageMainFrameNote}`;
 
   // Build main frame parts including product images
   const mainFrameParts: any[] = [{ text: mainFrameUserPrompt }];
@@ -603,22 +605,86 @@ CRITICAL PRODUCT IMAGE INSTRUCTIONS FOR MAIN FRAME:
   );
 
   // Parse multi-frame response into individual clip prompts
-  const rawClipPrompts = mainFrameRawResponse.split("###CLIP###")
-    .map(p => p.trim())
-    .filter(p => p.length > 0);
+  // First clean any code block wrappers the AI might have added
+  const cleanedResponse = mainFrameRawResponse
+    .replace(/^```(?:markdown|json|text|plaintext)?\s*\n?/gim, '')
+    .replace(/\n?```\s*$/gim, '')
+    .replace(/^```\s*\n?/gim, '')
+    .replace(/\n?```$/gim, '');
 
-  // Ensure we have the right number of prompts; fallback to duplicating if parsing fails
+  // Try multiple separator patterns — AI sometimes uses variations
+  let rawClipPrompts: string[] = [];
+  const separatorPatterns = [
+    /###\s*CLIP\s*###/gi,          // ###CLIP###, ### CLIP ###, etc.
+    /---\s*CLIP\s*---/gi,          // ---CLIP---
+    /\n={3,}\s*\n/g,               // === separator lines
+  ];
+
+  for (const pattern of separatorPatterns) {
+    const splits = cleanedResponse.split(pattern)
+      .map(p => p.trim())
+      .filter(p => p.length > 0);
+    if (splits.length >= segmentCount) {
+      rawClipPrompts = splits;
+      break;
+    }
+    if (splits.length > rawClipPrompts.length) {
+      rawClipPrompts = splits;
+    }
+  }
+
+  // If separator splitting didn't work well, try splitting by "Clip N" headers
+  if (rawClipPrompts.length < segmentCount) {
+    const clipHeaderSplit = cleanedResponse.split(/\n(?=Clip\s+\d+\s*[\u2013\u2014–—-])/gi)
+      .map(p => p.trim())
+      .filter(p => p.length > 0);
+    if (clipHeaderSplit.length > rawClipPrompts.length) {
+      rawClipPrompts = clipHeaderSplit;
+    }
+  }
+
+  // If we still got fewer clips than needed, retry generation once
   let mainFramePrompts: string[];
+  if (rawClipPrompts.length < segmentCount && rawClipPrompts.length <= 2) {
+    console.warn(`Parsed only ${rawClipPrompts.length} clips, expected ${segmentCount}. Retrying generation...`);
+    const retryResponse = await generateWithRetry(
+      [{ text: mainFrameUserPrompt + `\n\nIMPORTANT: You MUST generate EXACTLY ${segmentCount} separate prompts. Separate each one clearly with ###CLIP### on its own line. Do not combine clips. Output ${segmentCount} distinct prompts.` }],
+      multiFrameSystemPrompt,
+      'Main Frame (Multi-Clip Retry)'
+    );
+    const retryClean = retryResponse
+      .replace(/^```(?:markdown|json|text|plaintext)?\s*\n?/gim, '')
+      .replace(/\n?```\s*$/gim, '');
+    
+    let retryClips = retryClean.split(/###\s*CLIP\s*###/gi)
+      .map(p => p.trim())
+      .filter(p => p.length > 0);
+    
+    if (retryClips.length < segmentCount) {
+      const retryHeaderSplit = retryClean.split(/\n(?=Clip\s+\d+\s*[\u2013\u2014–—-])/gi)
+        .map(p => p.trim())
+        .filter(p => p.length > 0);
+      if (retryHeaderSplit.length > retryClips.length) {
+        retryClips = retryHeaderSplit;
+      }
+    }
+    
+    if (retryClips.length > rawClipPrompts.length) {
+      rawClipPrompts = retryClips;
+    }
+  }
+
+  // Final assignment
   if (rawClipPrompts.length >= segmentCount) {
     mainFramePrompts = rawClipPrompts.slice(0, segmentCount);
   } else if (rawClipPrompts.length > 0) {
-    // Pad with last prompt if we got fewer than expected
+    // Pad — but log a warning
+    console.warn(`Final clip count: ${rawClipPrompts.length}/${segmentCount}. Padding remaining clips.`);
     mainFramePrompts = [...rawClipPrompts];
     while (mainFramePrompts.length < segmentCount) {
       mainFramePrompts.push(rawClipPrompts[rawClipPrompts.length - 1]);
     }
   } else {
-    // Complete fallback — use the entire response as a single prompt
     mainFramePrompts = [mainFrameRawResponse];
     while (mainFramePrompts.length < segmentCount) {
       mainFramePrompts.push(mainFrameRawResponse);

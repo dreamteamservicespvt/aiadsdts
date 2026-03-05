@@ -18,6 +18,7 @@ import {
   PenTool,
   ChevronDown,
   Copy,
+  ExternalLink,
   StopCircle
 } from 'lucide-react';
 import { FileUpload } from './components/FileUpload';
@@ -1351,6 +1352,23 @@ const App: React.FC = () => {
                         />
                       )}
                     </div>
+
+                    {/* Video Generation Platform Button */}
+                    <a
+                      href="https://labs.google/fx/tools/flow"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={clsx(
+                        "flex items-center justify-center space-x-3 w-full py-3.5 px-6 rounded-xl font-semibold text-sm transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5",
+                        resolvedTheme === 'dark'
+                          ? "bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-500 hover:to-violet-500 text-white"
+                          : "bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-500 hover:to-violet-500 text-white"
+                      )}
+                    >
+                      <Video className="w-5 h-5" />
+                      <span>Open Video Generation Platform</span>
+                      <ExternalLink className="w-4 h-4 opacity-70" />
+                    </a>
                   </>
                 )}
 
