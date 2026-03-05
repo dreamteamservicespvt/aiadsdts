@@ -1000,9 +1000,11 @@ ${Array.from({ length: segmentCount }, (_, i) => {
    🧍 POSE: ${shot.pose}
    🎯 PURPOSE: ${shot.purpose}
    
-   Generate a COMPLETE, detailed image generation prompt following ALL the rules above.
+   Generate a COMPLETE, detailed image generation prompt following ALL the rules/sections from the base prompt above.
    This frame sets the visual foundation — character face, hair, skin, beauty, attire, jewellery, AND this specific location within the business.
-   This is the ONLY clip where you fully describe the model's physical appearance.`;
+   This is the ONLY clip where you fully describe the model's physical appearance.
+   Include ALL sections: SUBJECT, Facial characteristics, POSE, HAIR, ATTIRE, JEWELLERY, ENVIRONMENT, CAMERA, OVERALL RESULT.
+   Target length: 500-800 words.`;
   }
   
   return `**CLIP ${clipNum} — ${shot.name} (⚠️ DO NOT RE-DESCRIBE THE MODEL)**
@@ -1035,7 +1037,11 @@ ${Array.from({ length: segmentCount }, (_, i) => {
    • 🎥 The new CAMERA ANGLE and composition
    • 💡 How lighting naturally differs at this new spot (e.g., near window = warm, interior = ambient)
    
-   WHY THIS MATTERS: Any model description — even saying "beautiful woman" or "silk saree" — will cause the AI image generator to create a COMPLETELY DIFFERENT person. The model's identity is LOCKED from Clip 1. You ONLY control the scene around her.`;
+   WHY THIS MATTERS: Any model description — even saying "beautiful woman" or "silk saree" — will cause the AI image generator to create a COMPLETELY DIFFERENT person. The model's identity is LOCKED from Clip 1. You ONLY control the scene around her.
+   
+   **OUTPUT LENGTH FOR THIS CLIP: 100-200 words MAXIMUM.**
+   **DO NOT include these section headers: SUBJECT, Facial characteristics, HAIR, ATTIRE, JEWELLERY, PRODUCT IMAGES PLACEMENT, OVERALL RESULT.**
+   **ONLY include: one model reference line + POSE + NEW LOCATION/ENVIRONMENT + CAMERA/LIGHTING + MOOD.**`;
 }).join('\n\n')}
 
 ===== VISUAL VARIATION RULES — THE DIRECTOR'S CHECKLIST =====
@@ -1088,31 +1094,82 @@ Do NOT automatically include any CTA text in the frame prompts (e.g., "ఇప్
 CTA text will be handled separately by the video editing team.
 Frame prompts should focus ONLY on the visual scene — no overlaid text except real-world logo signage.
 
+===== ⛔ FORBIDDEN SECTION HEADERS FOR CLIPS 2+ (CRITICAL — READ THIS) ⛔ =====
+
+**The base prompt above defines sections like SUBJECT, Facial characteristics, HAIR, ATTIRE, JEWELLERY, etc.**
+**These section headers are ONLY for Clip 1. For Clips 2+, you must NOT include these sections AT ALL.**
+
+**CLIP 1 must include ALL these sections:** SUBJECT, Facial characteristics, POSE & FRAMING, HAIR, ATTIRE, JEWELLERY, ENVIRONMENT, LOGO PLACEMENT, CAMERA & PHOTO REALISM, OVERALL RESULT, PRODUCT IMAGES PLACEMENT
+
+**CLIPS 2+ must NEVER include ANY of these sections:**
+⛔ SUBJECT (CELEBRITY STANDARD…) — FORBIDDEN
+⛔ Facial characteristics (MANDATORY…) — FORBIDDEN  
+⛔ HAIR (ACTRESS-LEVEL…) — FORBIDDEN
+⛔ ATTIRE (ULTRA-LUXURY…) — FORBIDDEN
+⛔ JEWELLERY (LUXURIOUS…) — FORBIDDEN
+⛔ PRODUCT IMAGES PLACEMENT — FORBIDDEN (already covered in Clip 1)
+⛔ OVERALL RESULT — FORBIDDEN (already covered in Clip 1)
+
+**CLIPS 2+ should ONLY contain these sections:**
+✅ One-line model reference ("The exact same woman from Clip 1…")
+✅ POSE & FRAMING (new pose for this location)
+✅ ENVIRONMENT — NEW LOCATION (the new spot within the business)
+✅ CAMERA (angle for this shot)
+✅ LIGHTING (how it differs at this new spot)
+✅ MOOD (one line matching the voice-over script)
+
+===== WORD COUNT RULES (ENFORCED) =====
+
+**Clip 1: 500–800 words** — Full detailed prompt with every section.
+**Clips 2, 3, 4, etc.: 100–200 words MAXIMUM** — Short, location-focused prompts. If your continuation clip is longer than 200 words, you are re-describing the model. DELETE those lines.
+
+A continuation clip that is 500+ words means you are repeating model/attire/jewellery descriptions — this is WRONG and will produce different-looking women across clips.
+
 ===== OUTPUT FORMAT (CRITICAL — MUST FOLLOW EXACTLY) =====
 
 Separate each clip's prompt with the marker: ###CLIP###
 
-Output format:
+**CLIP 1 FORMAT (FULL — 500-800 words):**
+
 Clip 1 – Main Frame Prompt (${shotDesigns[0].name})
-[Full detailed prompt — model at LOCATION 1 of the business]
+Create a Ultra-realistic DSLR photograph, single image, 9:16 vertical…
+[Full SUBJECT section with face, hair, beauty description]
+[Full ATTIRE section]
+[Full JEWELLERY section]
+[Full ENVIRONMENT section with business + decorations]
+[Full CAMERA & REALISM section]
+[Full OVERALL RESULT]
 
 ###CLIP###
 
+**CLIP 2+ FORMAT (SHORT — 100-200 words ONLY):**
+Here is an EXAMPLE of what a correct Clip 2 prompt looks like:
+
 Clip 2 – Main Frame Prompt (${shotDesigns[1 % shotDesigns.length].name})
-Continuing from the previous frame — exact same model, exact same attire…
-[Model has MOVED to LOCATION 2 — describe new location, pose, camera — NO model re-description]
+The exact same woman from Clip 1 — identical in every way, same face, same attire, same jewellery, completely unchanged.
+
+POSE: Subject positioned on the right side using rule-of-thirds, one hand gesturing gently toward the product display behind her. Slight low-angle mid-shot, camera slightly below chest level.
+
+NEW LOCATION: She has moved to the product showcase area of the office. Behind her, a large sleek monitor displays website designs and AI-powered tools. Modern display shelving with tech awards and client project samples visible. The DTS logo signage is visible on the far wall.
+
+Festival decorations from the office are still visible — mango leaf thoranam above the display, marigold garlands framing the monitor, brass deepam on the desk corner, rangoli patterns continuing on the floor.
+
+LIGHTING: Cool blue-tinted ambient light from the display screens blends with warm golden festival lamp glow — creating a unique tech-meets-tradition atmosphere.
+
+MOOD: Professional, aspirational — showcasing the company's innovative capabilities while celebrating Ugadi.
+
+**^^^ THAT is the correct length and format for Clips 2+. Notice: NO facial description, NO hair, NO attire, NO jewellery, NO "Facial characteristics" section, NO "HAIR" section, NO "ATTIRE" section. Just location + pose + camera + lighting + mood.**
 
 ${segmentCount > 2 ? `###CLIP###
 
 Clip 3 – Main Frame Prompt (${shotDesigns[2 % shotDesigns.length].name})
-Continuing from the previous frame — exact same model, exact same attire…
-[Model has MOVED to LOCATION 3 — describe new location, pose, camera — NO model re-description]` : ''}
+[Same short format — 100-200 words — new location, new pose, new camera — NO model description]` : ''}
 
 (Continue for all ${segmentCount} clips — each at a DIFFERENT location within the business)
 
 **Generate EXACTLY ${segmentCount} prompts separated by ###CLIP###. No more, no less.**
+**Clip 1 = LONG (full description). Clips 2+ = SHORT (100-200 words, location-only, NO model re-description).**
 **Each clip's model MUST be at a PHYSICALLY DIFFERENT location within the same business establishment.**
-Each prompt must be complete, copy-paste ready, and follow the exact format structure defined above.
 Do NOT wrap individual prompts in code blocks — output them as plain text separated by ###CLIP###.`;
 };
 
