@@ -624,7 +624,7 @@ Create a Ultra-realistic DSLR photograph, single image, 9:16 vertical — must l
 
 SUBJECT (CELEBRITY STANDARD — NON-NEGOTIABLE — MUST LOOK LIKE A-LIST CELEBRITY):
 One **exceptionally beautiful young Indian woman (early-20s)** with **true celebrity-level presence**, like a top national brand ambassador or A-list South Indian film actress hired to represent a premium [BUSINESS TYPE] brand${isFestival ? ` during their ${festivalName} celebrations` : ''}.
-Her beauty must feel **STUNNING, premium, magnetic, and instantly attention-grabbing** — think Rashmika Mandanna, Pooja Hegde, or Samantha Ruth Prabhu level beauty. The kind of woman brands pay crores to front their campaigns.
+Her beauty must feel **STUNNING, premium, magnetic, and instantly attention-grabbing** — the kind of face that stops you mid-scroll on Instagram. Think top-tier South Indian film actress level beauty — the kind of woman premium national brands pay crores to front their campaigns. Do NOT name any specific celebrity.
 
 Facial characteristics (MANDATORY — CELEBRITY BEAUTY LEVEL):
 • Perfect natural facial symmetry — stunning model-like proportions
@@ -659,14 +659,16 @@ Soft elegant waves or sleek traditional styling.
 Glossy but natural shine, slight flyaways allowed for realism.
 Looks like it was done by a celebrity stylist — expensive, natural, and real.
 
-${isFestival && festivalTheme ? `ATTIRE (DYNAMIC — BUSINESS SECTOR + ${festivalName.toUpperCase()} FESTIVAL BLEND — MANDATORY):
+${isFestival && festivalTheme ? `ATTIRE (ULTRA-LUXURY — BUSINESS SECTOR + ${festivalName.toUpperCase()} FESTIVAL BLEND — MANDATORY):
 The saree MUST be **DYNAMIC and UNIQUE based on the business sector** — NOT the same saree for every business.
 • Base festival theme: **${festivalTheme.sareeColor}**
 • BUT the saree color MUST ALSO incorporate the **business brand colors** from the logo
 • For example: A medical clinic celebrating ${festivalName} should have different saree tones than a real estate company celebrating ${festivalName}
 • The saree should feel like it was CHOSEN specifically to represent THIS particular business during ${festivalName}
 • Blend the festival celebration spirit with the business brand identity in the saree design
-• Fabric must look expensive Kanchipuram / Banarasi / tissue silk — heavy premium fabric with **natural gravity, folds, and realistic creases**
+• **FABRIC MUST LOOK OUTRAGEOUSLY EXPENSIVE** — pure handwoven Kanchipuram / Banarasi / Kanjeevaram silk with real gold zari work, intricate temple borders, heavy premium silk with **natural gravity, deep folds, and realistic creases that scream luxury**
+• The saree must look like it costs ₹50,000–₹2,00,000 — the kind worn at film premieres or luxury brand launches
+• Pallu drape must be elegant, heavy, and gravity-realistic — NOT flat, NOT stiff
 • Styling must feel film-industry celebrity level, not catalog or wedding shoot
 • The attire must complement BOTH the business type AND the ${festivalName} decorations
 
@@ -675,30 +677,34 @@ JEWELLERY (LUXURIOUS CELEBRITY-LEVEL — MANDATORY):
 Jewellery must be ALWAYS EXPENSIVE, LUXURIOUS gold and diamond celebrity-level jewellery — NOT festival-themed items.
 NEVER use festival-specific items like rudraksha, minimal jewellery, or religious accessories.
 The jewellery should look like expensive red-carpet level worth lakhs — pure gold with diamonds/kundan only.` : `ATTIRE (BUSINESS-THEMED COLOR — MANDATORY — MUST BE DYNAMIC PER BUSINESS):
-${attireType === 'traditional' ? `Premium traditional Indian silk saree — the saree color MUST be UNIQUE and DYNAMIC based on the specific business type and brand colors. Do NOT use the same saree for different businesses.
+${attireType === 'traditional' ? `**ULTRA-LUXURY** traditional Indian silk saree — the saree MUST be **OUTRAGEOUSLY EXPENSIVE-LOOKING** and **UNIQUELY DYNAMIC** based on the specific business type and brand colors. Do NOT use the same saree for different businesses.
 
-Color guide by business type:
-• Medical/Healthcare: Elegant soft ivory / pearl white with subtle blue accents
-• Real Estate: Deep royal blue OR rich emerald green with gold border
-• Fashion/Boutique: Rich royal purple OR deep wine with gold accents
-• Food/Catering: Warm maroon OR golden yellow with traditional border
-• Tech/Software/Agency: Modern navy blue OR charcoal with subtle silver
-• Education: Deep blue OR forest green with gold accents
-• Solar/Energy: Deep green with solar-blue and gold accents
-• Laundry/Wash: Soft ivory / beige with subtle blue and orange accents
-• Tea/Beverage: Rich leaf-green with warm golden accents
-• Jewellery: Rich royal maroon OR deep purple with gold
-• Electrical/Hardware: Professional deep blue OR steel grey
-• Default: Premium colors extracted from the brand logo palette
+Color guide by business type (each MUST feel like a different designer collection):
+• Medical/Healthcare: Elegant soft ivory / pearl white Kanchipuram silk with subtle blue-and-gold zari border — clinical elegance meets luxury
+• Real Estate: Deep royal blue OR rich emerald green Kanjeevaram with heavy gold zari temple border — conveys power, prosperity
+• Fashion/Boutique: Rich royal purple OR deep wine Banarasi silk with intricate gold brocade all-over — pure couture luxury
+• Food/Catering: Warm maroon OR golden yellow pure silk with traditional paisley/mango motifs in real gold zari — warm, rich, inviting
+• Tech/Software/Agency: Modern navy blue OR charcoal tissue silk with subtle silver-platinum zari geometric patterns — futuristic elegance
+• Education: Deep blue OR forest green Kanchipuram with classic gold temple border — academic prestige meets tradition
+• Solar/Energy: Deep green with solar-blue tones, gold zari with contemporary motifs — progressive luxury
+• Laundry/Wash: Soft pearl ivory / champagne beige Banarasi with subtle blue and copper zari — pristine, fresh, elegant
+• Tea/Beverage: Rich leaf-green Kanjeevaram with warm golden zari paisley motifs — earthy opulence
+• Jewellery: Rich royal maroon OR deep purple with heavy gold Kanchipuram temple border — jewellery-showroom worthy
+• Electrical/Hardware: Professional deep blue OR steel grey silk with subtle silver zari — industrial premium
+• Default: Premium colors extracted from the brand logo palette in Kanchipuram/Banarasi silk with gold zari
 
 **CRITICAL: Each business MUST get a VISUALLY DIFFERENT saree based on its business sector.**
 
-Fabric must look expensive Kanchipuram / Banarasi / tissue silk — heavy premium fabric with **natural gravity, folds, and realistic creases**.
+**FABRIC MUST LOOK OUTRAGEOUSLY EXPENSIVE** — pure handwoven Kanchipuram / Banarasi / Kanjeevaram silk with real gold zari work, heavy temple borders or intricate brocade. The saree must look like it costs ₹50,000–₹2,00,000 — the kind worn at film premieres or luxury brand launches.
+Pallu drape must be elegant, heavy, and gravity-realistic — NOT flat, NOT stiff.
+Fabric should show natural gravity, deep realistic folds, and creases with **visible silk sheen under lighting**.
 Styling must feel film-industry celebrity level, not catalog or wedding shoot.` : `High-fashion premium corporate suit with "Old Money" aesthetic.
 Color MUST complement the [BUSINESS TYPE]:
 • Preferred Colors: Beige, Cream, Pastel Pink, Soft Grey, Navy Blue
 • Structured blazer, crisp white shirt, minimalist styling
-• Looks CEO / Founder / Brand Ambassador level`}
+• Fabric must look premium — Italian wool, fine cashmere blend, or luxury linen
+• Looks CEO / Founder / Brand Ambassador level — red carpet ready
+• The suit must look like it was custom-tailored by a luxury designer — think ₹1–2 lakh executive couture`}
 
 JEWELLERY (MANDATORY — ALWAYS REQUIRED):
 **Jewellery is NON-NEGOTIABLE and must ALWAYS be present:**
@@ -920,32 +926,45 @@ ${segmentContext}
    Generate a complete, detailed image generation prompt following ALL the rules above.
    Camera: ${cameraVariations[0]}
    This frame sets the visual foundation — character, environment, lighting, attire, everything.
+   This is the ONLY clip where you fully describe the model's face, hair, skin, beauty, attire, and jewellery.
 
 ${voiceOverSegments.slice(1).map((_, i) => {
   const clipNum = i + 2;
   const cameraIdx = clipNum - 1 < cameraVariations.length ? clipNum - 1 : (clipNum - 1) % cameraVariations.length;
-  return `${clipNum}. **CLIP ${clipNum} — CONTINUATION FRAME**
-   Start with: "Continuing from the previous frame…"
+  return `${clipNum}. **CLIP ${clipNum} — CONTINUATION FRAME (⚠️ DO NOT RE-DESCRIBE THE MODEL)**
+   Start with: "Continuing from the previous frame — exact same model, exact same attire, exact same environment…"
    Camera: ${cameraVariations[cameraIdx]}
-   Change ONLY: camera angle, composition, or subtle action/expression to match Clip ${clipNum}'s script content.
-   Keep SAME: character appearance, attire, environment, lighting style, color grading, logo placement.`;
+   
+   **CRITICAL MODEL CONSISTENCY RULE:**
+   DO NOT re-describe the model's face, hair, skin tone, beauty features, facial characteristics, makeup, skin texture, or any physical attributes.
+   DO NOT re-describe the attire fabric, color, saree details, or jewellery.
+   Instead, write ONLY: "The exact same woman from the previous frame, unchanged in every way."
+   Then describe ONLY what CHANGES in this frame:
+   • New POSE (hand position, body angle, weight shift)
+   • New EXPRESSION (smile type, gaze direction, emotional tone matching the script)
+   • New CAMERA ANGLE (as specified above)
+   • Any subtle ENVIRONMENT interaction (e.g., hand near product display, glancing at logo)
+   
+   WHY: Re-describing the model causes the AI image generator to create a DIFFERENT woman. The model must be identical across all clips — only her pose and expression should change.`;
 }).join('\n\n')}
 
 ===== VISUAL VARIATION RULES (MAKE EACH CLIP UNIQUE) =====
 
-Each frame MUST be visually different from the previous one. Vary these elements:
+Each frame MUST be visually different from the previous one. ONLY vary these elements:
 • **Camera angle** — subtle shifts (straight, slightly low, slightly high, gentle side angle)
-• **Subject expression** — match the script mood (welcoming smile, confident gaze, warm gesture, proud expression)
-• **Hand position** — subtle natural variations (gently folded, one hand on counter, slight gesture mid-sentence)
+• **Subject POSE** — body angle, hand position, weight shift, leaning direction
+• **Subject EXPRESSION** — match the script mood (welcoming smile, confident gaze, warm gesture, proud expression, slight head tilt)
 • **Depth of field focus** — sometimes subject sharp + background soft, sometimes pull focus slightly to show environment details
-• **Background activity** — subtle environmental changes (different lighting angle, slightly different decor emphasis)
+• **Background emphasis** — subtle focus shift to different parts of the environment
 
-DO NOT VARY:
-• Character identity (same person, same face, same beauty level)
-• Attire & jewellery (exact same outfit throughout)
-• Overall environment (same location/office)
-• Color grading & lighting style (consistent mood)
-• Logo placement (same position)
+⚠️ ABSOLUTE DO NOT VARY (MODEL CONSISTENCY IS SACRED):
+• **Model's face, features, beauty, skin tone, hair** — she must be the EXACT SAME PERSON in every clip
+• **Attire & jewellery** — exact same outfit, exact same jewellery, exact same fabric
+• **Overall environment** — same location/office, same decorations
+• **Color grading & lighting style** — consistent mood throughout
+• **Logo placement** — same position
+
+⚠️ FOR CLIPS 2+: DO NOT write any model description (face, hair, skin, beauty, attire, jewellery). The AI generating the image already has the previous frame's model — re-describing her will make the AI generate a DIFFERENT woman. ONLY describe: pose, expression, camera angle, and any subtle action.
 
 ===== REALISM REQUIREMENT (ABSOLUTE — NON-NEGOTIABLE) =====
 
@@ -983,14 +1002,14 @@ Clip 1 – Main Frame Prompt
 ###CLIP###
 
 Clip 2 – Main Frame Prompt
-Continuing from the previous frame…
-[Prompt for clip 2 with camera/composition changes]
+Continuing from the previous frame — exact same model, exact same attire, exact same environment…
+[ONLY pose, expression, camera angle changes — NO model/attire re-description]
 
 ###CLIP###
 
 Clip 3 – Main Frame Prompt
-Continuing from the previous frame…
-[Prompt for clip 3 with camera/composition changes]
+Continuing from the previous frame — exact same model, exact same attire, exact same environment…
+[ONLY pose, expression, camera angle changes — NO model/attire re-description]
 
 (Continue for all ${segmentCount} clips)
 
